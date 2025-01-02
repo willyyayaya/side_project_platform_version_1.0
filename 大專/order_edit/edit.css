@@ -1,0 +1,48 @@
+header {
+    background: #14518e;
+    border-bottom: 1px solid #c59650;
+}
+
+body {
+    background-color: #bbc8d8;
+    color: #303030;
+}
+
+footer {
+    background: #14518e;
+    border-top: 1px solid #c59650;
+}
+
+#thumbnail,
+#input,
+#needEtc,
+[id^=another] {
+    border: 1px solid #c59650;
+    padding: 10px;
+    background-color: #eaeff3;
+    font-size: 18px;
+    
+}
+
+input {
+    padding: 5px;
+    margin: 2px;
+}
+
+#insert {
+    background-color: #eaeff3;
+    font-size: 30px;
+    font-weight: bold;
+    border: 1px solid #c59650;
+}
+
+#preview {
+    display: none;
+    height: 100px;
+}
+#thumbnail>div{
+    min-height: 260px;
+}
+.col-8>div{
+    margin: 5px;
+}

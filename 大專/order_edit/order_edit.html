@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>編輯訂單</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../JQuery/jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="./edit.css">
+    <script src="https://cdn.tiny.cloud/1/3qt5p8zmzgkhugokt7zjo71ucaq0smf1t0w4mvrshu1s225m/tinymce/7/tinymce.min.js"
+        referrerpolicy="origin"></script>
+    <script src="./edit.js"></script>
+</head>
+
+<body>
+    <header><br><br><br><br></header>
+    <!-- <form method="POST" enctype="multipart/form-data" action=""> -->
+        <div class="container w-75 p-1">
+            <h1>編輯專案</h1>
+            <div class="p-2 rounded-2 mb-1 row" id="needEtc">
+                <div class="col-8">
+                    <div>專案類型:
+                        <select id="category" name="category">
+                            <option value="game">遊戲</option>
+                            <option value="web">網頁</option>
+                            <option value="app">APP</option>
+                        </select>
+                    </div>
+                    <div>輸入專案標題:
+                        <input id="projectTitle" name="projectTitle" type="text">
+                    </div>
+                    <div> 預算:
+                        <input type="radio" name="budget" value="30000"> 3萬塊以內
+                        <input type="radio" name="budget" value="50000"> 3~5萬
+                        <input type="radio" name="budget" value="negotiable"> 另議
+                    </div>
+                    <div>工作地點:
+                        <input type="radio" name="workplace" value="region">地區:
+                        <select id="region" name="region"></select>
+                        <input type="radio" name="workplace" value="remote">遠端工作
+                    </div>
+                    <div class="d-flex">
+                        <div>需求程式技能:
+                            <div id="skill" class="d-inline"></div>
+                        </div>
+                    </div>
+                    <div>建議需求人數:
+                        <input type="radio" name="team" value="1to3"> 1~3人
+                        <input type="radio" name="team" value="3to6"> 3~6人
+                        <input type="radio" name="team" value="7over"> 7人以上
+                    </div>
+                    <div>專案截止日:
+                        <input id="deadline" type="date" name="deadline">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div id="thumbnail" class="p-2 rounded-2 mb-1">
+                        <div><b>選擇欲顯示縮圖</b>
+                            <input type="file" id="imageInput" name="imageInput"
+                                accept="image/gif, image/jpeg, image/png"><br>
+                            <img id="preview" src="" alt="Image Preview">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="p-2 rounded-2 mb-1 row" id="input">
+                <textarea>
+              </textarea>
+            </div>
+            <div class="row">
+                <button id="insert" type="" class="btn btn-outline-primary">提出</button>
+            </div>
+        </div>
+    <!-- </form> -->
+
+    <footer><br><br><br><br></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

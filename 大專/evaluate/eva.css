@@ -1,0 +1,31 @@
+.star-rating .fa-star {
+    color: #ccc;
+    cursor: pointer;
+}
+
+.star-rating .fa-star.checked {
+    color: #ffcc00;
+}
+
+.col-5,
+#modalName {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#message-text {
+    height: 170px;
+}
+
+.modal-header {
+    background-color: #bbc8d8;
+}
+
+#imgBorder {
+    width: 200px;
+    height: 200px;
+    border: 2px solid black;
+}
