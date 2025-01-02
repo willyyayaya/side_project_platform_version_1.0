@@ -1,0 +1,159 @@
+@charset "UTF-8";
+
+		    * {
+		    font-family: 微軟正黑體;
+		    color: #303030;
+		}
+		
+		a{
+		    text-decoration: none;
+		}
+		
+		body {
+		    background: #bbc8d8;
+		    height: 750px;    
+		}
+		
+		ul {
+		    background-color: #14518e;
+		    padding: 25px;
+		    overflow: hidden;
+		
+		}
+		
+		img {
+		    float: left;
+		    height: 50px;
+		    width:auto ;
+		    margin-left: 20px;
+		}
+		
+		li{
+		    float: right;
+		    display: inline;
+		    color:#eaeff3;
+		    margin-top: 10px;
+		}
+		
+		li a {
+		    color: inherit;
+		    font-size: 1.1rem;
+		    padding:10px;
+		    text-decoration: none;
+		}
+		
+		
+		nav a:hover {
+		    color: #c59650;
+		}
+		
+		h3{
+		    font-size: 1.5rem;
+		}
+		
+		#username,#account,
+		#password,
+		#checkpasswd,
+		#tel,#email,#birthday
+		{
+		    width: 200px;
+		    height: 20px;
+		    margin: 10px;
+		    font-size: 1rem;
+		    color: #303030;
+		}
+		
+		h5 {
+		    margin: 21px;
+		    color: #14518e;
+		}
+		
+		h5:hover {
+		    color: #c59650;
+		}
+		
+		#register {
+		    margin: 50px;
+		    padding: 20px;
+		    /* width: auto; */
+		    height: auto;
+		    border-style:9px #c59650;
+		    background-color: #eaeff3;
+		    border-top: 40px solid #14518e;
+		    /* box-shadow: 0 0px 70px rgba(0, 0, 0, 0.1); */
+		    border-radius: 5px;
+		    /*定位對齊*/
+		    position: relative;
+		    margin: auto;
+		    top: 150px;
+		    text-align:center;  
+		}
+		
+		
+		.submit {
+		    color: #14518e;
+		    background: #bbc8d8;
+		    width: 200px;
+		    font-size: 1rem;
+		    height: 50px;
+		    margin: 10px;
+		    padding: 5px;
+		    border-radius: 5px;
+		    border-color: #14518e;
+		}
+		
+		.submit:hover {
+		    background: #14518e;
+		    color: #eaeff3;
+		}
+		
+		
+		input {
+		    padding: 15px;
+		    border: none;
+		    border: solid 1px #c59650;
+		    border-radius: 5px;
+		}
+		
+		input[type=checkbox] {
+		    display: none;
+		}
+		
+		input[type=checkbox]+span {
+		    display: inline-block;
+		    margin: 5px;
+		    border-radius: 5px;
+		    background-color: #bbc8d8;
+		    padding: 3px 6px;
+		    border: 1px solid #14518e;
+		    color: #14518e;
+		    user-select: none; /* 防止文字被滑鼠選取反白 */
+		}
+		
+		input[type=checkbox]:checked+span {
+		    color: #eaeff3;
+		    background-color: #14518e;
+		}
+		
+		footer {
+		    text-align: center;
+		    padding: 50px;
+		    margin-top: 250px;
+		    height: auto;
+		    background-color: #14518e;
+		    color: #eaeff3;
+		}
+		
+		#foodiv1{
+		    background-color: #eaeff3;
+		    width: auto;
+		    text-align: center;
+		}
+		#foodiv2{
+		    background-color: #c59650;
+		    height: 155px;
+		}
+		#foodiv3{
+		    background-color: #c59650;
+		    height: 155px;
+		}
