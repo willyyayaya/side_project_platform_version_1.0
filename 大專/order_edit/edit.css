@@ -21,13 +21,23 @@ footer {
     padding: 10px;
     background-color: #eaeff3;
     font-size: 18px;
-    
+
+}
+
+#simpleInfo {
+    width: 90%;
+    height: 130px;
 }
 
 input {
     padding: 5px;
     margin: 2px;
 }
+
+#people {
+    width: 60px;
+}
+
 
 #insert {
     background-color: #eaeff3;
@@ -40,9 +50,11 @@ input {
     display: none;
     height: 100px;
 }
-#thumbnail>div{
+
+#thumbnail>div {
     min-height: 260px;
 }
-.col-8>div{
+
+.col-8>div {
     margin: 5px;
 }

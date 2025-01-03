@@ -15,11 +15,15 @@
 
 <body>
     <header><br><br><br><br></header>
-    <!-- <form method="POST" enctype="multipart/form-data" action=""> -->
+    <!-- <form method="POST" enctype="multipart/form-data" action="大專\order_main\order_main.html"> -->
         <div class="container w-75 p-1">
             <h1>編輯專案</h1>
             <div class="p-2 rounded-2 mb-1 row" id="needEtc">
                 <div class="col-8">
+                    <div>
+                        輸入簡介:<br>
+                        <textarea id="simpleInfo" name="simpleInfo"></textarea>
+                    </div>
                     <div>專案類型:
                         <select id="category" name="category">
                             <option value="game">遊戲</option>
@@ -46,9 +50,7 @@
                         </div>
                     </div>
                     <div>建議需求人數:
-                        <input type="radio" name="team" value="1to3"> 1~3人
-                        <input type="radio" name="team" value="3to6"> 3~6人
-                        <input type="radio" name="team" value="7over"> 7人以上
+                        <input id="people" type="number">人
                     </div>
                     <div>專案截止日:
                         <input id="deadline" type="date" name="deadline">
@@ -66,11 +68,12 @@
 
             </div>
             <div class="p-2 rounded-2 mb-1 row" id="input">
+                <h4>詳細內容:</h4>
                 <textarea>
               </textarea>
             </div>
             <div class="row">
-                <button id="insert" type="" class="btn btn-outline-primary">提出</button>
+                <button id="insert" type="submit" class="btn btn-outline-primary" >提出</button>
             </div>
         </div>
     <!-- </form> -->

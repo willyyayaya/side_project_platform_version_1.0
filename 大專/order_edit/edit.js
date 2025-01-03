@@ -1,7 +1,7 @@
 $(document).ready(function () {
     //文字編輯器    
     tinymce.init({
-        selector: 'textarea',
+        selector: 'textarea:not(#simpleInfo)',
         plugins: [
             // Core editing features
             'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
@@ -36,7 +36,7 @@ $(document).ready(function () {
     $("#skill").append('<input type="checkbox" name="needSkill" value="3">');
     $("input[value='3']").after('<span>' + $('input[value="3"]').val() + '</span>');
 
-    
+
     $("select[name='region']").css("display", "none");
     if ($('input[value="region"]').prop('checked')) {
         $('select[name="region"]').css("display", "inline-block");
@@ -53,6 +53,7 @@ $(document).ready(function () {
     })
 
     insert.onclick = function () {
+        console.log($('#simpleInfo').val());
         console.log($("#category").val());
         console.log($("#projectTitle").val());
         console.log($("input[name='budget']:checked").val());
@@ -69,7 +70,7 @@ $(document).ready(function () {
         });
         console.log(selectedSkills);
 
-        console.log($("input[name='team']:checked").val());
+        console.log($('#people').val());
         console.log($('#deadline').val());
 
         console.log($('img').prop("src"));
