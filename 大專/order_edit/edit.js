@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready( async function () {
     //文字編輯器    
     tinymce.init({
         selector: 'textarea:not(#simpleInfo)',
@@ -24,17 +24,23 @@ $(document).ready(function () {
     });
 
 
-    //地點選單(抓資料庫內容)
+    //地點選單
     $("#region").append('<option>1</option>');
     $("#region").append('<option>2</option>');
     $("#region").append('<option>3</option>');
-    //需求技能(抓資料庫內容)
-    $("#skill").append('<input type="checkbox" name="needSkill" value="1">');
-    $("input[value='1']").after('<span>' + $('input[value="1"]').val() + '</span>');
-    $("#skill").append('<input type="checkbox" name="needSkill" value="2">');
-    $("input[value='2']").after('<span>' + $('input[value="2"]').val() + '</span>');
-    $("#skill").append('<input type="checkbox" name="needSkill" value="3">');
-    $("input[value='3']").after('<span>' + $('input[value="3"]').val() + '</span>');
+    //需求技能(抓資料庫內容x)
+    $("#skill").append('<input type="checkbox" name="needSkill" value="Java">');
+    $("input[value='Java']").after('<span>' + $('input[value="Java"]').val() + '</span>');
+    $("#skill").append('<input type="checkbox" name="needSkill" value="Spring">');
+    $("input[value='Spring']").after('<span>' + $('input[value="Spring"]').val() + '</span>');
+    $("#skill").append('<input type="checkbox" name="needSkill" value="Html">');
+    $("input[value='Html']").after('<span>' + $('input[value="Html"]').val() + '</span>');
+    $("#skill").append('<input type="checkbox" name="needSkill" value="Css">');
+    $("input[value='Css']").after('<span>' + $('input[value="Css"]').val() + '</span>');
+    $("#skill").append('<input type="checkbox" name="needSkill" value="JavaScript">');
+    $("input[value='JavaScript']").after('<span>' + $('input[value="JavaScript"]').val() + '</span>');
+    $("#skill").append('<input type="checkbox" name="needSkill" value="Python">');
+    $("input[value='Python']").after('<span>' + $('input[value="Python"]').val() + '</span>');
 
 
     $("select[name='region']").css("display", "none");

@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(async function () {
     var ratingValue = 0;
 
     // 當滑鼠移動到星星時
@@ -45,22 +45,75 @@ $(document).ready(function () {
     });
 
     // 當模態框顯示時，重置評分
-    $('#MyModal').on('show.bs.modal', function () {
+    $('#MyModal').on('show.bs.modal', function (e) {
         ratingValue = 0;
         $('#rating-value').text(ratingValue);
         $('.fa-star').removeClass('checked');
         $("#message-text").val("");
+        var button = $(e.relatedTarget);
+        orderId = button.data('order-id'); // 取得訂單 ID
+        // 根據訂單 ID 載入對應的資料
+        loadOrderData(orderId);
     });
+    async function loadOrderData(orderId) {
+        //顯示發案者頭像和名字
+        let ordermemberUrl = `http://localhost:8080/api/memberOrders/getMembersByOrderId/${orderId}`;
+        let responseOrdermember = await fetch(ordermemberUrl);
+        let responseOrdermemberToJSON = await responseOrdermember.json();
+        console.log(responseOrdermemberToJSON);
+        imgBorder.innerHTML = `<img class="img-fluid object-fit-contain" src="${responseOrdermemberToJSON[0].picurl}">`;
+        modalName.innerText = `${responseOrdermemberToJSON[0].name}`;
+        //顯示專案名字
+        let orderUrl = `http://localhost:8080/api/orders/getOrderById/${orderId}`;
+        let responseOrder = await fetch(orderUrl);
+        let responseOrderToJSON = await responseOrder.json();
+        console.log(responseOrderToJSON);
+        projectTitle.innerText = `${responseOrderToJSON.name}`;
+    }
+
     //送出
-    evaluateGo.onclick = function () {
+    evaluateGo.onclick = async function () {
         var rating = $('#rating-value').text();
         var reviewText = $('#message-text').val();
 
+        // 檢查是否已經選擇了評分
         if (rating == 0) {
-            alert("請填下分數和評價");
-        } else {
-            console.log("評分: " + rating + ", 評價: " + reviewText);
+            alert("請填寫分數和評價");
+            return;
         }
 
+        //評分部分
+        let ratingUrl = `http://localhost:8080/api/orders/addRank/${orderId}`;
+        fetch(ratingUrl, { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({rank:rating})
+        })
+           
+
+
+        //評論部分
+        // 動態設置 URL，根據實際訂單 ID
+        let evaluateUrl = `http://localhost:8080/api/memberOrders/addEvaluate/${orderId}`;
+        // 準備傳送的資料
+        let data = {
+            evaluate: reviewText
+        };
+        // 發送 POST 請求
+        await fetch(evaluateUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data), // 注意這裡需要轉換為 JSON 字串
+        })
+
+
+
+
+        // 打印出評分和評價
+        console.log("評分: " + rating + ", 評價: " + reviewText);
     };
 });

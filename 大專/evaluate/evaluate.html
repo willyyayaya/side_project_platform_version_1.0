@@ -14,7 +14,8 @@
 <body style="background-color: #bbc8d8; color: #303030;">
 
 
-    <button data-bs-toggle="modal" data-bs-target="#MyModal">評價</button>
+    <button data-bs-toggle="modal" data-bs-target="#MyModal" data-order-id="115">評價</button>
+    <button data-bs-toggle="modal" data-bs-target="#MyModal" data-order-id="113">評價</button>
 
 
 
@@ -28,14 +29,12 @@
                 </div>
                 <div class="modal-body row">
                     <div class="col-5">
-                        <div id="imgBorder" class="d-flex justify-content-center align-items-center mb-1">
-                            <img class="img-fluid object-fit-contain" src="../sunny.jpg">
-                        </div>
-                        <h3 id="modalName">名字</h3>
-                        <button id="personalPage" class="btn btn-outline-primary">個人頁面</button>
+                        <div id="imgBorder" class="d-flex justify-content-center align-items-center mb-1"></div>
+                        <h3 id="modalName"></h3>
+                        <a href=""><button id="personalPage" class="btn btn-outline-primary">個人頁面</button></a>
                     </div>
                     <div class="col-7">
-                        <h4>專案標題</h4>
+                        <h4 id="projectTitle"></h4>
                         <div>
                             <div class="star-rating">
                                 <p>評分：
