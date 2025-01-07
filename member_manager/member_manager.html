@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <script src="./member_manager.js"></script>
+    <!-- <script src="./member_manager.js"></script> -->
 </head>
 <body>
     <nav class="navBar">
@@ -22,13 +22,12 @@
     </nav>
     <div class="mainBody">
         <div class="up">
-            <input id="memberAccount" type="text" placeholder="請輸入帳號" autocomplete="on" />
-            <input id="memberName" type="text" placeholder="請輸入會員姓名" autocomplete="on" />
-            <button class="listButton" id="searchButton" onclick="searchUser()">查詢</button>
+            <input id="memberEmail" type="text" placeholder="請輸入信箱" autocomplete="on" />
+            <button class="listButton" id="searchButton" onclick="searchMember()">查詢</button>
             <button class="listButton" id="clearButton" onclick="clearInputs()">清除</button>
         </div>
         <div class="down">
-            <div class="userList" id="userList"></div>
+            <div class="memberList" id="memberList"></div>
             <div class="detail" id="detailContent"></div>
         </div>
     </div>
@@ -37,5 +36,23 @@
         <br>
         <small>Contact: willyyayaya@gmail.com</small>
     </footer>
+    <dialog>
+        <div>
+            <svg id="i-alert" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <path d="M16 3 L30 29 2 29 Z M16 11 L16 19 M16 23 L16 25" />
+            </svg>
+        </div>
+        <div>
+            <h3>確定要刪除此會員嗎？</h3>
+            <h4>注意：刪除無法復原！</h4>
+        </div>
+        <form method="dialog">
+            <footer>
+                <button class="listButton confirm">確定</button>
+                <button class="listButton" onclick="closeDialog()">取消</button>
+            </footer>
+        </form>
+    </dialog>
+    <script src="./member_manager.js"></script>
 </body>
 </html>

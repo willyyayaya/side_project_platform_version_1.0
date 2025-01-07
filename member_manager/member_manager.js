@@ -1,95 +1,158 @@
-// 假資料集
-const fakeData = [
-    {
-        account: "001",
-        name: "鄭全賢",
-        lists: [
-            { listName: "購物清單", items: ["筆記本", "鉛筆", "橡皮擦"] },
-            { listName: "興趣清單", items: ["籃球", "吉他"] }
-        ]
-    },
-    {
-        account: "002",
-        name: "李洪靄",
-        lists: [
-            { listName: "工作事項", items: ["完成報告", "參加會議"] },
-            { listName: "旅遊計畫", items: ["東京", "京都"] }
-        ]
-    },
-    {
-        account: "003",
-        name: "陳南翊",
-        lists: [
-            { listName: "興趣清單", items: ["籃球", "吉他"] },
-            { listName: "旅遊計畫", items: ["東京", "京都"] }
-        ]
-    },
-    {
-        account: "004",
-        name: "游婉瑞",
-        lists: [
-            { listName: "工作事項", items: ["完成報告", "參加會議"] },
-            { listName: "購物清單", items: ["筆記本", "鉛筆", "橡皮擦"] }
-        ]
-    }
-];
-
-// 初始化
-// document.addEventListener("DOMContentLoaded", () => {
-//     document.getElementById("search-button").addEventListener("click", searchUser);
-//     document.getElementById("clear-button").addEventListener("click", clearInputs);
-// });
-
-// 查詢會員
-function searchUser() {
-    const accountInput = document.getElementById("memberAccount").value.trim();
-    const nameInput = document.getElementById("memberName").value.trim();
-
-    // 搜尋會員
-    const user = fakeData.find(
-        u => u.account === accountInput || u.name === nameInput
-    );
-
-    if (user) {
-        displayCategories(user);
-    } else {
-        alert("未找到會員資料");
-    }
-}
-
-// 顯示會員的名單
-function displayCategories(user) {
-    const userList = document.getElementById("userList");
-    userList.innerHTML = ""; // 清空舊的資料
-
-    user.lists.forEach(list => {
-        const button = document.createElement("button");
-        button.textContent = list.listName;
-        button.className = "listButton"; // 新增自訂的 CSS 類名
-        button.addEventListener("click", () => displayDetails(list));
-        userList.appendChild(button);
-    });
-}
-
-// 顯示名單的詳細內容
-function displayDetails(list) {
-    const detailContent = document.getElementById("detailContent");
-    detailContent.textContent = ""; // 清空舊的內容
-
-    const ul = document.createElement("ul");
-    list.items.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = item;
-        ul.appendChild(li);
-    });
-
-    detailContent.appendChild(ul);
-}
-
-// 清除輸入與顯示
+// 清除輸入框並重新載入會員列表
 function clearInputs() {
-    document.getElementById("memberAccount").value = "";
-    document.getElementById("memberName").value = "";
-    document.getElementById("userList").innerHTML = ""; // 清空名單
-    document.getElementById("detailContent").textContent = ""; // 清空詳細內容
+    document.getElementById('memberEmail').value = '';
+    document.getElementById('detailContent').innerHTML = '';
+    loadAllMembers(); // 呼叫載入所有會員的函式
 }
+
+// 載入所有會員
+async function loadAllMembers() {
+    document.getElementById('detailContent').innerHTML = '';
+    try {
+        const response = await fetch('http://localhost:8080/api/members/getAllMembers');
+        if (!response.ok) throw new Error('無法取得會員列表');
+        const members = await response.json();
+
+        const memberList = document.getElementById('memberList');
+        memberList.innerHTML = '';
+        members.forEach(member => {
+            const memberItem = document.createElement('div');
+            memberItem.className = 'memberItem';
+            memberItem.innerHTML = `
+                <button class="listButton" style="float: left; margin-right: 10px;" onclick="confirmDelete(${member.memberid})">刪除</button>
+                <span onclick="showMemberDetail('${member.email}')" style="float: left; margin-right: 10px; cursor: pointer;">${member.name}</span>
+            `;
+            memberList.appendChild(memberItem);
+        });
+    } catch (error) {
+        alert(error.message);
+    }
+}
+
+// 查詢特定會員
+async function searchMember() {
+    const memberEmail = document.getElementById('memberEmail').value;
+    if (!memberEmail) {
+        alert('請輸入會員信箱');
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:8080/api/members/getMemberByEmail/${memberEmail}`);
+        if (!response.ok) throw new Error('無法取得會員資料');
+        const member = await response.json();
+
+        const memberList = document.getElementById('memberList');
+        memberList.innerHTML = ''; // 清空列表
+        const memberItem = document.createElement('div');
+        memberItem.className = 'memberItem';
+        memberItem.innerHTML = `
+            <button class="listButton" style="float: left; margin-right: 10px;" onclick="confirmDelete(${member.memberid})">刪除</button>
+                <span onclick="showMemberDetail('${member.email}')" style="float: left; margin-right: 10px; cursor: pointer;">${member.name}</span>
+        `;
+        memberList.appendChild(memberItem);
+    } catch (error) {
+        alert(error.message);
+    }
+}
+
+// 顯示會員詳細資訊
+async function showMemberDetail(email) {
+    try {
+        // 通過 email 獲取會員詳細資料
+        const response = await fetch(`http://localhost:8080/api/members/getMemberByEmail/${email}`);
+        if (!response.ok) throw new Error('無法取得會員詳細資料');
+        const member = await response.json();
+
+        // 更新顯示詳細內容
+        const detailContent = document.getElementById('detailContent');
+        detailContent.innerHTML = `
+            <div class="detailField">
+                <h3>會員名稱：<input type="text" value="${member.name}" id="memberName" /></h3>
+            </div>
+            <div class="detailField">
+                <h6>帳號：<input type="text" value="${member.account}" id="memberAccount" /></h6>
+            </div>
+            <div class="detailField">
+                <h6>信箱：<input type="text" value="${member.email}" id="memberEmailNew" /></h6>
+            </div>
+            <div class="detailField">
+                <h6>生日：<input type="date" value="${member.birthday}" id="memberBirthday" /></h6>
+            </div>
+            <div class="detailField">
+                <h6>電話：<input type="text" value="${member.tel}" id="memberTel" /></h6>
+            </div>
+            <div class="detailFooter">
+                <button class="listButton" onclick="saveMember('${member.memberid}')">儲存</button>
+                <button class="listButton" onclick="cancelEdit()">取消</button>
+            </div>
+        `;
+    } catch (error) {
+        alert(error.message);
+    }
+}
+
+// 儲存會員修改
+async function saveMember(memberId) {
+    try {
+        const updatedMember = {
+            name: document.getElementById('memberName').value,
+            account: document.getElementById('memberAccount').value,
+            email: document.getElementById('memberEmailNew').value,
+            birthday: document.getElementById('memberBirthday').value,
+            tel: document.getElementById('memberTel').value
+        };
+
+        // 通過 memberId 更新會員資料
+        const response = await fetch(`http://localhost:8080/api/members/updateMember/${memberId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedMember)
+        });
+
+        if (!response.ok) throw new Error('更新失敗');
+        alert('會員已成功更新');
+        loadAllMembers(); // 更新後重新載入會員列表
+    } catch (error) {
+        alert(error.message);
+    }
+}
+
+// 取消編輯
+function cancelEdit() {
+    document.getElementById('detailContent').innerHTML = '';
+}
+
+// 確認刪除會員
+function confirmDelete(memberId) {
+    openDialog(memberId);
+}
+
+// 刪除會員
+async function deleteMember(memberId) {
+    try {
+        const response = await fetch(`http://localhost:8080/api/members/deleteMember/${memberId}`, { 
+            method: 'DELETE'
+        });
+        if (!response.ok) throw new Error('刪除會員失敗');
+        alert('會員已成功刪除');
+        loadAllMembers(); // 刪除後重新載入會員列表
+    } catch (error) {
+        alert(error.message);
+    }
+}
+
+const dialog = document.querySelector('dialog');
+function openDialog(memberId) {
+    const confirmButton = dialog.querySelector('.listButton.confirm');
+    confirmButton.setAttribute('onclick', `deleteMember(${memberId})`);
+    dialog.showModal();
+}
+function closeDialog() {
+    dialog.close();
+}
+
+// 初始化頁面
+window.onload = () => {
+    loadAllMembers(); // 頁面載入時載入所有會員
+};
