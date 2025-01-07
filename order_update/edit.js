@@ -105,7 +105,7 @@ $(document).ready(async function () {
 
 
 
-
+       
 
         //上傳專案表單
         let orderUrl = 'http://localhost:8080/api/orders/addOrder';
@@ -124,23 +124,17 @@ $(document).ready(async function () {
                 people: $('#people').val(),
                 tagIds: selectedSkills,
             })
-        }).then(response => response.json()
-        ).then(data => {
-            console.log(data)
-            if (data && data.orderId) {
-                const orderId = data.orderId;
-                // 進行重定向
-                const redirectUrl = `http://127.0.0.1:5500/大專/order_main/order_main.html?orderid=${encodeURIComponent(orderId)}`;
-                window.location.href = redirectUrl;
+        }).then(response => {
+            if (response.ok) { // 檢查是否成功
+                alert("已成功提交評分!"); // 顯示成功提示
             } else {
-                console.error('未獲取到 orderId');
-                alert("無法獲取訂單ID，請再試一次。");
+                alert("資料送出失敗，請再試一次。"); // 顯示失敗提示
             }
-
-        }).catch(error => {
-            console.error("發生錯誤：", error);
-            alert("發生錯誤，請稍後再試。"); // 顯示錯誤提示
-        });
+        })
+            .catch(error => {
+                console.error("發生錯誤：", error);
+                alert("發生錯誤，請稍後再試。"); // 顯示錯誤提示
+            });
 
 
     }
