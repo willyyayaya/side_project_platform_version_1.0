@@ -90,7 +90,17 @@ $(document).ready(async function () {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ rank: rating })
+        }).then(response => {
+            if (response.ok) { // 檢查是否成功
+                alert("已成功提交評分!"); // 顯示成功提示
+            } else {
+                alert("資料送出失敗，請再試一次。"); // 顯示失敗提示
+            }
         })
+            .catch(error => {
+                console.error("發生錯誤：", error);
+                alert("發生錯誤，請稍後再試。"); // 顯示錯誤提示
+            });
 
         //評論部分
         // 動態設置 URL，根據實際訂單 ID
