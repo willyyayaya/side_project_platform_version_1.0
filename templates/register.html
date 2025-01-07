@@ -34,8 +34,8 @@
 
 
 <!-- 會員註冊窗口 -->
-<div> 
-    <div id="register" class="m-5">
+<div style="width: 80%;margin: 10%;"> 
+    <div id="register" class="m-5" style="top: 100px;">
         <form class="row justify-content-md-center" th:action="@{/reg_submit}" th:object="${member}" method="post" enctype="multipart/form-data">
             <div class="col-sm-12">
                 <h3>註冊帳號</h3><hr>
@@ -67,80 +67,35 @@
             </div>
             <div class="col-sm-4">
                 <h3>前端</h3><hr>
-                <label for="CSS">
-                    <input type="checkbox" id="CSS" name="tag" value="CSS"><span>CSS</span>
+                <label th:each="option : ${options}" th:for="${option.tagname}" th:if="${option.category} == 'Front'">
+                    <input type="checkbox" th:id="${option.tagname}" name="selected" th:value="${option.tagid}">
+                    <span th:text="${option.tagname}">Java</span>
                 </label>
-                <label for="SCSS">
-                    <input type="checkbox" id="SCSS" name="tag" value="SCSS"><span>SCSS</span>
-                </label>
-                <label for="Sass">
-                    <input type="checkbox" id="Sass" name="tag" value="Sass"><span>Sass</span>
-                </label>
-                <label for="JavaScript">
-                    <input type="checkbox" id="JavaScript" name="tag" value="JavaScript"><span>JavaScript</span>
-                </label>
-                <label for="jQuery">
-                    <input type="checkbox" id="jQuery" name="tag" value="jQuery"><span>jQuery</span>
-                </label>
-                <label for="Vue">
-                    <input type="checkbox" id="Vue" name="tag" value="Vue"><span>Vue</span>
-                </label>
-                <label for="React">
-                    <input type="checkbox" id="React" name="tag" value="React"><span>React</span>
-                </label>
+                
                 <br>
                 <br>
             </div>
             <div class="col-sm-4">
                 <h3>後端</h3><hr>
-                <label for="Java">
-                    <input type="checkbox" id="Java" name="tag" value="Java"><span>Java</span>
+               <label th:each="option : ${options}" th:for="${option.tagname}" th:if="${option.category} == 'Back'">
+                    <input type="checkbox" th:id="${option.tagname}" name="selected" th:value="${option.tagid}">
+                    <span th:text="${option.tagname}">Java</span>
                 </label>
-                <label for="Python">
-                    <input type="checkbox" id="Python" name="tag" value="Python"><span>Python</span>
-                </label>
-                <label for="Ruby">
-                    <input type="checkbox" id="Ruby" name="tag" value="Ruby"><span>Ruby</span>
-                </label>
-                <label for="PHP">
-                    <input type="checkbox" id="PHP" name="tag" value="PHP"><span>PHP</span>
-                </label>
-                <label for="C#">
-                    <input type="checkbox" id="C#" name="tag" value="C#"><span>C#</span>
-                </label>
-                <label for="C++">
-                    <input type="checkbox" id="C++" name="tag" value="C++"><span>C++</span>
-                </label>
-                <label for="Go">
-                    <input type="checkbox" id="Go" name="tag" value="Go"><span>Go</span>
-                </label>
-                <label for="Node.js">
-                    <input type="checkbox" id="Node.js" name="tag" value="Node.js"><span>Node.js</span>
-                </label>
+                
                 <br>
                 <br>
             </div>
             <div class="col-sm-4">
                 <h3>資料庫</h3><hr>
-                <label for="MySQL">
-                    <input type="checkbox" id="MySQL" name="tag" value="MySQL"><span>MySQL</span></br>
+               <label th:each="option : ${options}" th:for="${option.tagname}" th:if="${option.category} == 'Database'">
+                    <input type="checkbox" th:id="${option.tagname}" name="selected" th:value="${option.tagid}">
+                    <span th:text="${option.tagname}">Java</span>
                 </label>
-                <label for="SQL">
-                    <input type="checkbox" id="SQL" name="tag" value="SQL"><span>SQL</span></br>
-                </label>
-                <label for="Server">
-                    <input type="checkbox" id="Server" name="tag" value="Server"><span>Server</span></br>
-                </label>
-                <label for="PostgreSQL">
-                    <input type="checkbox" id="PostgreSQL" name="tag" value="PostgreSQL"><span>PostgreSQL</span></br>
-                </label>
-                <label for="MongoDB">
-                    <input type="checkbox" id="MongoDB" name="tag" value="MongoDB"><span>MongoDB</span>
-                </label>
+                
                 <br>
                 <br>
             </div>
-<div></div>
+            
             <div id="next">
                 <a href="/login"><input type="submit" value="下一步" class="submit" onclick="checkResult()"></a>
             </div>
