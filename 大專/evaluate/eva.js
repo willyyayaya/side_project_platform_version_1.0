@@ -78,21 +78,19 @@ $(document).ready(async function () {
 
         // 檢查是否已經選擇了評分
         if (rating == 0) {
-            alert("請填寫分數和評價");
+            alert("至少請填入分數");
             return;
         }
 
         //評分部分
         let ratingUrl = `http://localhost:8080/api/orders/addRank/${orderId}`;
-        fetch(ratingUrl, { 
+        fetch(ratingUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({rank:rating})
+            body: JSON.stringify({ rank: rating })
         })
-           
-
 
         //評論部分
         // 動態設置 URL，根據實際訂單 ID
@@ -109,9 +107,6 @@ $(document).ready(async function () {
             },
             body: JSON.stringify(data), // 注意這裡需要轉換為 JSON 字串
         })
-
-
-
 
         // 打印出評分和評價
         console.log("評分: " + rating + ", 評價: " + reviewText);
