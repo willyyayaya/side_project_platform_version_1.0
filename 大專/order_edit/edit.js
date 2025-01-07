@@ -1,4 +1,4 @@
-$(document).ready( async function () {
+$(document).ready(async function () {
     //文字編輯器    
     tinymce.init({
         selector: 'textarea:not(#simpleInfo)',
@@ -28,19 +28,29 @@ $(document).ready( async function () {
     $("#region").append('<option>1</option>');
     $("#region").append('<option>2</option>');
     $("#region").append('<option>3</option>');
-    //需求技能(抓資料庫內容x)
-    $("#skill").append('<input type="checkbox" name="needSkill" value="Java">');
-    $("input[value='Java']").after('<span>' + $('input[value="Java"]').val() + '</span>');
-    $("#skill").append('<input type="checkbox" name="needSkill" value="Spring">');
-    $("input[value='Spring']").after('<span>' + $('input[value="Spring"]').val() + '</span>');
-    $("#skill").append('<input type="checkbox" name="needSkill" value="Html">');
-    $("input[value='Html']").after('<span>' + $('input[value="Html"]').val() + '</span>');
-    $("#skill").append('<input type="checkbox" name="needSkill" value="Css">');
-    $("input[value='Css']").after('<span>' + $('input[value="Css"]').val() + '</span>');
-    $("#skill").append('<input type="checkbox" name="needSkill" value="JavaScript">');
-    $("input[value='JavaScript']").after('<span>' + $('input[value="JavaScript"]').val() + '</span>');
-    $("#skill").append('<input type="checkbox" name="needSkill" value="Python">');
-    $("input[value='Python']").after('<span>' + $('input[value="Python"]').val() + '</span>');
+    //需求技能(抓資料庫內容)
+    // $("#skill").append('<input type="checkbox" name="needSkill" value="Python">');
+    // $("input[value='Python']").after('<span>' + $('input[value="Python"]').val() + '</span>');
+    let skillsUrl = `http://localhost:8080/api/tags/getTagNames`;
+    let responseSkill = await fetch(skillsUrl);
+    let responseSkillToJSON = await responseSkill.json();
+    console.log('輸入技能種類' + responseSkillToJSON);
+    // 確保 #skill 容器清空，避免重複添加
+    $("#skill").empty();
+    // 動態生成checkbox和對應的標籤
+    var i = 1;
+    responseSkillToJSON.forEach(skill => {
+        // 動態添加checkbox
+        let checkbox = $('<input>', {
+            type: 'checkbox',
+            name: 'needSkill',
+            value: i++
+        });
+        // 動態添加對應的標籤
+        let span = $('<span>').text(skill);
+        // 把checkbox和span放進#skill元素中
+        $("#skill").append(checkbox).append(span);
+    });
 
 
     $("select[name='region']").css("display", "none");
@@ -58,6 +68,7 @@ $(document).ready( async function () {
         }
     })
 
+
     insert.onclick = function () {
         console.log($('#simpleInfo').val());
         console.log($("#category").val());
@@ -66,8 +77,11 @@ $(document).ready( async function () {
 
         if ($('input[name="workplace"]:checked').val() == "region") {
             console.log($('#region').val());
+            var rigion = $('#region').val();
         } else if ($('input[name="workplace"]:checked').val() == "remote") {
             console.log($('input[value="remote"]').val());
+            var rigion = $('input[value="remote"]').val();
+
         }
 
         var selectedSkills = [];
@@ -91,11 +105,46 @@ $(document).ready( async function () {
 
 
 
+       
+
+        //上傳專案表單
+        let orderUrl = 'http://localhost:8080/api/orders/addOrder';
+        fetch(orderUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: $("#projectTitle").val(),
+                intro: $('#simpleInfo').val(),
+                deadline: $('#deadline').val(),
+                detail: activeEditorContent.getContent(),
+                picurl: $('img').prop("src"),
+                location: rigion,
+                people: $('#people').val(),
+                tagIds: selectedSkills,
+            })
+        }).then(response => {
+            if (response.ok) { // 檢查是否成功
+                alert("已成功提交評分!"); // 顯示成功提示
+            } else {
+                alert("資料送出失敗，請再試一次。"); // 顯示失敗提示
+            }
+        })
+            .catch(error => {
+                console.error("發生錯誤：", error);
+                alert("發生錯誤，請稍後再試。"); // 顯示錯誤提示
+            });
+
+
     }
+
 
     // 顯示縮圖用
     imageInput.addEventListener('change', function () {
         const file = imageInput.files[0];
+        console.log(imageInput.files[0]);
+
         if (file) {
             const reader = new FileReader();
             reader.onload = function (e) {
