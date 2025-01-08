@@ -6,7 +6,7 @@ function clearInputs() {
 }
 
 // 查詢會員專案
-async function searchUser() {
+async function searchMember() {
     const memberEmail = document.getElementById('memberEmail').value;
     if (!memberEmail) {
         alert('請輸入會員信箱');
@@ -19,6 +19,7 @@ async function searchUser() {
         if (!memberResponse.ok) throw new Error('無法取得會員資料');
         const memberData = await memberResponse.json();
         const memberId = memberData.memberid;
+        const memeberName = memberData.name;
 
         // 2. 呼叫 API 取得會員專案關係
         const memberOrdersResponse = await fetch(`http://localhost:8080/api/memberOrders/getAllMemberOrdersByMemberId/${memberId}`);
@@ -41,7 +42,7 @@ async function searchUser() {
 
         // 5. 渲染專案列表
         const orderList = document.getElementById('orderList');
-        orderList.innerHTML = '';
+        orderList.innerHTML = `<h3 style="padding: 20px;">${memeberName}的相關專案</h3>`;
         orders.forEach(order => {
             const orderInfo = orderMap.get(order.orderid) || { owned: false, wanted: false };
             const ownedTag = orderInfo.owned ? '<span class="tag pink">擁有</span>' : '';
@@ -85,22 +86,22 @@ async function showOrderDetail(orderId) {
                 <h3>專案名稱：<input type="text" value="${order.name}" id="orderName" /></h3>
             </div>
             <div class="detailField">
-                <h6>截止日期：<input type="date" value="${order.deadline}" id="orderDeadline" /></h6>
+                <h5>截止日期：<input type="date" value="${order.deadline}" id="orderDeadline" /></h5>
             </div>
             <div class="detailField">
-                <h6>簡介：<input type="text" value="${order.intro}" id="orderIntro" /></h6>
+                <h5>簡介：<textarea id="orderIntro">${order.intro}</textarea></h5>
             </div>
             <div class="detailField">
-                <h6>詳情：<textarea id="orderDetail">${order.detail}</textarea></h6>
+                <h5>詳情：<textarea id="orderDetail">${order.detail}</textarea></h5>
             </div>
             <div class="detailField">
-                <h6>地點：<input type="text" value="${order.location}" id="orderLocation" /></h6>
+                <h5>地點：<input type="text" value="${order.location}" id="orderLocation" /></h5>
             </div>
             <div class="detailField">
-                <h6>排名：<input type="number" value="${order.rank}" id="orderRank" /></h6>
+                <h5>排名：<input type="number" value="${order.rank}" id="orderRank" /></h5>
             </div>
             <div class="detailField">
-                <h6>人數：<input type="number" value="${order.people}" id="orderPeople" /></h6>
+                <h5>人數：<input type="number" value="${order.people}" id="orderPeople" /></h5>
             </div>
             <div class="detailFooter">
                 <button class="listButton" onclick="saveOrder(${orderId})">儲存</button>
@@ -136,7 +137,7 @@ async function saveOrder(orderId) {
 
         if (!response.ok) throw new Error('更新失敗');
         alert('專案已成功更新');
-        searchUser();
+        searchMember();
     } catch (error) {
         alert(error.message);
     }
@@ -193,7 +194,7 @@ async function deleteOrder(orderId) {
         }
         
         alert('專案已成功刪除');
-        searchUser();
+        searchMember();
     } catch (error) {
         alert(error.message);
     }

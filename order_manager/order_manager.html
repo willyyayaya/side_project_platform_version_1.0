@@ -16,30 +16,38 @@
     <nav class="navBar">
         <ul>
             <li><p>專案維護系統</p></li>
-            <li><a id="mMButton" href="../member_manager/member_manager.html">會員維護</a></li>
-            <li><a id="oMButton" href="./order_manager.html">專案維護</a></li>
+            <li><a href="../member_manager/member_manager.html">會員維護</a></li>
+            <li><a href="./order_manager.html">專案維護</a></li>
         </ul>
     </nav>
     <div class="mainBody">
         <div class="up">
+            <div class="title">查詢會員</div>
             <input id="memberEmail" type="text" placeholder="請輸入信箱" autocomplete="on" />
-            <button class="listButton" id="searchButton" onclick="searchUser()">查詢</button>
+            <button class="listButton" id="searchButton" onclick="searchMember()">查詢</button>
             <button class="listButton" id="clearButton" onclick="clearInputs()">清除</button>
         </div>
         <div class="down">
-            <div class="orderList" id="orderList"></div>
-            <div class="detail" id="detailContent"></div>
+            <div id="orderListSide">
+            <div class="title">會員的相關專案關聯</div>
+                <div class="orderList" id="orderList"></div>
+            </div>
+            <div id="detailContentSide">
+            <div class="title">專案資料</div>
+                <div class="detail" id="detailContent"></div>
+            </div>
         </div>
     </div>
     <footer class="footer">
-        <small>Author: Willy Weng</small>
-        <br>
-        <small>Contact: willyyayaya@gmail.com</small>
+        <span>聯絡我們 :</span>
+		<a href="SideProject123@gmail.com">SideProject123@gmail.com</a>
+		<p>&copy; 2025 ee91_SideProject. All rights reserved</p>
     </footer>
     <dialog>
         <div>
-            <svg id="i-alert" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                <path d="M16 3 L30 29 2 29 Z M16 11 L16 19 M16 23 L16 25" />
+            <svg id="i-alert" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
             </svg>
         </div>
         <div>

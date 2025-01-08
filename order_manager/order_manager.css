@@ -1,34 +1,40 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 /* 捲軸寬度及高度 */
 ::-webkit-scrollbar {
     width: 30px; /*右側捲軸寬度*/
     height: 30px; /*下方捲軸高度*/
     border-radius: 12px;
-    background-color: rgb(255, 216, 169);
+    background-color: #14518e;
 }
 
   /* 軌道背景底色 */
 ::-webkit-scrollbar-track {
-    background: rgb(253, 238, 220);
+    background: #1963ad;
     /* border-radius: 12px; */
 }
 
   /* 滑桿顏色 */
 ::-webkit-scrollbar-thumb {
-    background: rgb(255, 216, 169);
+    background: #14518e;
     /* border-radius: 12px; */
 }
   /* 滑桿滑鼠滑入時的顏色 */
 ::-webkit-scrollbar-thumb:hover {
-    background: rgb(241, 166, 97);
+    background: #114477;
 }
   /* 捲軸兩側頂端的按鈕 */
 ::-webkit-scrollbar-button {
-    background-color: rgb(255, 216, 169);
+    background-color: #14518e;
     border-radius: 12px;
 }
   /* 捲軸兩側頂端的按鈕滑鼠滑入時的顏色 */
 ::-webkit-scrollbar-button:hover {
-    background-color: rgb(241, 166, 97);
+    background-color: #114477;
     border-radius: 12px;
 }
 
@@ -41,10 +47,9 @@ body {
     display: flex;
     flex-direction: column;
     padding: 0;
-    background-size: cover;
     font-family: monospace;
     font-size: 20px;
-    background-color: rgb(255, 208, 155);
+    background-color: #bbc8d8;
     margin: 0;
     padding: 0;
     background-size: cover;
@@ -56,14 +61,15 @@ nav {
     width: 100%;
     z-index: 9999;
     height: 60px; /* 固定導航列高度 */
-    background-color: rgb(227, 139, 41);
+    background-color: #14518e;
+    color: white;
 }
 
 nav ul {
+    display: flex;
     list-style-type: none;
     padding: 0;
     margin: 0;
-    display: flex;
     justify-content: space-around;
     align-items: center;
     height: 100%; /* 將導航列的高度應用於內容 */
@@ -77,14 +83,14 @@ nav ul li {
 }
 
 nav ul li a {
-    color: white;
     padding: 18px;
     text-decoration: none;
     display: block;
+    color: white;
 }
 
 nav ul li a:hover {
-    background-color: rgb(226, 124, 7);
+    background-color: #1963ad;
 }
 
 nav ul li p {
@@ -102,45 +108,55 @@ nav ul li p {
     margin-top: 60px; /* 確保主內容不與導航列重疊 */
 }
 
-/* #mMButton {
-    background-color: rgb(227, 139, 41);
-} */
-
-#oMButton {
-    background-color: rgb(226, 76, 7);
-}
-
 .up {
     width: 100%;
-    background-color: rgb(253, 255, 188);
+    background-color: #619dd4;
     text-align: left;
     display: flex;
     padding: 20px;
     box-sizing: border-box;
+    border: 0.5rem outset #5184b3;
 }
 
 .down {
     width: 100%;
     height: 100%;
-    background-color: rgb(241, 166, 97);
+    background-color: #14518e;
     text-align: center;
     display: flex;
     flex-direction: row;
     box-sizing: border-box;
+    /* border: 0.5rem outset #347cc4; */
 }
 
-.userName {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
+.title {
+    color: white;
+    font-size: x-large;
+    text-align: center;
+    margin: 10px;
+}
+
+#orderListSide {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    border: 0.5rem outset #5589b9;
+}
+
+#detailContentSide {
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+    border: 0.5rem outset #5589b9;
 }
 
 .orderList {
     width: 100%;
     height: 100%;
-    background-color: rgb(255, 210, 90);
+    background-color: #93bbe2;
     text-align: center;
     box-sizing: border-box;
+    /* border: 0.5rem outset #5589b9; */
 }
 
 /* 按鈕基礎樣式 */
@@ -175,18 +191,19 @@ ul {
 }
 
 .detail {
-    width: 200%;
-    background-color: rgb(255, 150, 90);
+    width: 100%;
+    background-color: #c5d4e4;
     text-align: center;
+    /* border: 0.5rem outset #5589b9; */
 }
 
 .footer {
     bottom: 0;
     left: 0;
-    background-color: rgb(227, 139, 41);
+    background-color: #14518e;
     padding: 5px;
     text-align: center;
-    color: rgb(0, 0, 0);
+    color: white;
 }
 
 dialog::backdrop {
@@ -208,6 +225,11 @@ dialog::backdrop {
 .orderItem {
     display: flex;
     align-items: center;
+}
+
+.orderItem:hover {
+    color: white;
+    background-color: #1768b9;
 }
 
 .tag {
@@ -237,10 +259,14 @@ dialog::backdrop {
     background-color: green;
 }
 
+.detailField {
+    width: auto;
+}
+
 #detailContent {
     display: flex;
     flex-direction: column;
-    justify-content: space-around; /* 水平平均對齊 */
+    /* justify-content: space-around; */
     align-items: center;          /* 垂直居中對齊 */
     height: 100%;                 /* 撐滿父容器 */
     box-sizing: border-box;
@@ -254,4 +280,22 @@ dialog::backdrop {
     align-items: flex-end;        /* 垂直向下對齊 */
     width: 100%;                  /* 撐滿容器寬度 */
     margin-top: auto;             /* 自動推動到容器底部 */
+}
+
+#orderName, #orderDeadline, #orderLocation, #orderRank, #orderPeople {
+    padding: 10px;
+    border : solid .1px black;
+    border-radius: 15px;
+    background-color :  #fff;
+    outline: none;
+}
+
+#orderIntro, #orderDetail {
+    width: 500px;
+    height: 200px;
+    padding: 10px;
+    border : solid .1px black;
+    border-radius: 15px;
+    background-color :  #fff;
+    outline: none;
 }
