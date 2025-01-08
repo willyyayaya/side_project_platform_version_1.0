@@ -1,0 +1,118 @@
+/* 設定網頁內外距為0，加入底色 */
+* {
+    margin: 0;
+    padding: 0;
+    background-color: #bbc8d8;
+}
+
+/* 導覽列容器固定 */
+.sticky {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* 以下導覽列樣式 */
+header {
+    display: flex;
+    align-items: center;
+    height: 80px;
+    width: 100%;
+    background-color: #14518e;
+    color: #eaeff3;
+    font-size: 20px;
+    padding: 0 30px 0 0;
+}
+
+.headerBtn {
+    margin-left: auto;
+    background-color: #14518e;
+    display: flex;
+    gap: 40px
+}
+
+.varBtn {
+    padding: 15px;
+    width: 120px;
+    border-radius: 10px;
+    border: 1px solid #14518e;
+    color: #14518e;
+    /* line-height: 50px; */
+}
+
+.varBtn:hover {
+    padding: 15px;
+    width: 120px;
+    background-color: #14518e;
+    border-radius: 10px;
+    border: 1px solid #eaeff3;
+    color: #eaeff3;
+}
+
+#logoBtn {
+    margin: 0 0 0 30px;
+    border: none;
+    background-color: transparent;
+}
+
+header img {
+    height: 80px;
+    background-color: #14518e;
+}
+
+.headerBtn>form {
+    background-color: #14518e;
+
+
+}
+
+#varUser {
+    border: none;
+    background-color: transparent;
+    color: #eaeff3;
+
+}
+
+#varUser:hover {
+    border: none;
+    /* background-color: #14518e; */
+    color: #c59650;
+    border-radius: 0px;
+    border-bottom: 3px solid #c59650;
+}
+
+/* 以下footer樣式 */
+footer {
+    display: flexbox;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    width: 100%;
+    background-color: #14518e;
+    color: #eaeff3;
+    margin: 0;
+    padding: 10px 0 0 0;
+    line-height: 40spx;
+    text-align: center;
+
+}
+
+footer>a {
+
+    background-color: #14518e;
+    color: #eaeff3;
+    text-decoration: none
+        /* color: #eaeff3; */
+}
+
+footer>p,
+footer>span {
+    text-align: center;
+    background-color: #14518e;
+    /* color: #eaeff3; */
+}
+
+footer>a,
+footer>span {
+    font-size: 24px;
+}
