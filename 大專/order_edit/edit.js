@@ -56,14 +56,14 @@ $(document).ready(async function () {
     $("select[name='region']").css("display", "none");
     if ($('input[value="region"]').prop('checked')) {
         $('select[name="region"]').css("display", "inline-block");
-    } else if ($('input[value="remote"]').prop('checked')) {
+    } else if ($('input[value="遠端工作"]').prop('checked')) {
         $("select[name='region']").css("display", "none");
     }
 
     $('input[name="workplace"]').change(function () {
         if ($('input[value="region"]').prop('checked')) {
             $('select[name="region"]').css("display", "inline-block");
-        } else if ($('input[value="remote"]').prop('checked')) {
+        } else if ($('input[value="遠端工作"]').prop('checked')) {
             $("select[name='region']").css("display", "none");
         }
     })
@@ -78,9 +78,9 @@ $(document).ready(async function () {
         if ($('input[name="workplace"]:checked').val() == "region") {
             console.log($('#region').val());
             var rigion = $('#region').val();
-        } else if ($('input[name="workplace"]:checked').val() == "remote") {
-            console.log($('input[value="remote"]').val());
-            var rigion = $('input[value="remote"]').val();
+        } else if ($('input[name="workplace"]:checked').val() == "遠端工作") {
+            console.log($('input[value="遠端工作"]').val());
+            var rigion = $('input[value="遠端工作"]').val();
 
         }
 
@@ -123,12 +123,32 @@ $(document).ready(async function () {
                 location: rigion,
                 people: $('#people').val(),
                 tagIds: selectedSkills,
+                budget: $("input[name='budget']:checked").val(),
+                upload: new Date().toISOString().split('T')[0],
+                newdate: new Date().toISOString().split('T')[0],
+                category: $("#category").val(),
+
             })
         }).then(response => response.json()
         ).then(data => {
             console.log(data)
             if (data && data.orderId) {
                 const orderId = data.orderId;
+                const setMemberOrderUrl = `http://localhost:8080/api/memberOrders/addOwnedOrder`;
+                const memberId = document.getElementById('memberId').content;
+                fetch(setMemberOrderUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        memberId: memberId,
+                        orderId: orderId,
+                        owned: 1,
+                        wanted: 0,
+                        collected: 0
+                    })
+                });
                 // 進行重定向
                 const redirectUrl = `http://127.0.0.1:5500/大專/order_main/order_main.html?orderid=${encodeURIComponent(orderId)}`;
                 window.location.href = redirectUrl;
