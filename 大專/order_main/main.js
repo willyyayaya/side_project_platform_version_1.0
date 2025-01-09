@@ -60,8 +60,7 @@ $(document).ready(async function () {
                 memberId: responseMemberToJSON[0].memberid,
                 orderId: orderId,
                 owned: 0,
-                wanted: 1,
-                collected: 0
+                wanted: 1
             })
         })
 
@@ -86,7 +85,57 @@ $(document).ready(async function () {
     let anotherUrl = 'http://localhost:8080/api/orders/getAllOrders';
     let responseAnother = await fetch(anotherUrl);
     let responseAnotherToJSON = await responseAnother.json();
-    console.log(responseAnotherToJSON);
+
+    for (let i = 0; i < 4; i++) {
+        const element = responseAnotherToJSON[i];
+        // console.log(element);
+        let another1 = $('<div>', {
+            id: 'another1',
+            class: 'mx-auto rounded-2',
+        });
+
+        let anotherTitle = $('<div>', {
+            id: 'anotherTitle',
+            text: element.name,
+        });
+
+        let anotherImg = $('<div>', {
+            id: 'anotherImg',
+            text: element.intro,
+        });
+        another1.append(anotherTitle, anotherImg)
+        let anotherpro = $('<a>', {
+            class: 'd-inline col-md-3',
+            href: '',
+        });
+        anotherpro.append(another1);
+        $('#another').append(anotherpro);
+    }
 
 
+    //顯示申請人數
+    let applypeopleUrl = `http://localhost:8080/api/memberOrders/collected/people/${orderId}`;
+    let responsePreople = await fetch(applypeopleUrl);
+    let responsePeopleToJSON = await responsePreople.json();
+    console.log(responsePeopleToJSON);
+    let ap = '目前申請人數:' + responsePeopleToJSON + '人';
+    $('#applyPeople').text(ap);
+
+
+
+    //申請按鈕
+    apply.onclick = function () {
+        let applyUrl = 'http://localhost:8080/api/memberOrders/collected';
+        fetch(applyUrl, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                memberId: responseMemberToJSON[0].memberid,
+                orderId: orderId,
+                "collected": 1
+            })
+        })
+    }
 });
