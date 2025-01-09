@@ -1,3 +1,8 @@
+// 初始化頁面
+window.onload = () => {
+    loadAllMembers(); // 頁面載入時載入所有會員
+};
+
 // 清除輸入框並重新載入會員列表
 function clearInputs() {
     document.getElementById('memberEmail').value = '';
@@ -19,8 +24,8 @@ async function loadAllMembers() {
             const memberItem = document.createElement('div');
             memberItem.className = 'memberItem';
             memberItem.innerHTML = `
-                <button class="listButton" style="float: left; margin-right: 10px;" onclick="confirmDelete(${member.memberid})">刪除</button>
-                <span onclick="showMemberDetail('${member.email}')" style="float: left; margin-right: 10px; cursor: pointer;">${member.name}</span>
+                <button class="listButton" style="float: left; margin-right: 10px; width: 20%;" onclick="confirmDelete(${member.memberid})">刪除</button>
+                <span onclick="showMemberDetail('${member.email}')" style="float: left; margin-right: 10px; cursor: pointer; width: 100%;">${member.name}</span>
             `;
             memberList.appendChild(memberItem);
         });
@@ -64,6 +69,14 @@ async function showMemberDetail(email) {
         if (!response.ok) throw new Error('無法取得會員詳細資料');
         const member = await response.json();
 
+        // 如果有 picurl，將其轉換為 Base64 URL；如果沒有，使用預設圖片
+        let picUrl = '';
+        if (member.picurl) {
+            picUrl = await convertBlobToBase64(member.picurl.data);
+        } else {
+            picUrl = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMDAwIi8+PC9zdmc+'; // 預設 Base64 圖片
+        }
+
         // 更新顯示詳細內容
         const detailContent = document.getElementById('detailContent');
         detailContent.innerHTML = `
@@ -71,16 +84,28 @@ async function showMemberDetail(email) {
                 <h3>會員名稱：<input type="text" value="${member.name}" id="memberName" /></h3>
             </div>
             <div class="detailField">
-                <h6>帳號：<input type="text" value="${member.account}" id="memberAccount" /></h6>
+                <h3>大頭照：</h3>
+                <div style="display: flex; align-items: center;">
+                    <img src="${picUrl}" alt="會員大頭照" style="width: 100px; height: 100px; object-fit: cover; margin-right: 10px;" id="memberPic" />
+                    <button class="listButton" onclick="clearMemberPic()">還原預設大頭照</button>
+                </div>
             </div>
             <div class="detailField">
-                <h6>信箱：<input type="text" value="${member.email}" id="memberEmailNew" /></h6>
+                <h5>帳號：<input type="text" value="${member.account}" id="memberAccount" /></h5>
             </div>
             <div class="detailField">
-                <h6>生日：<input type="date" value="${member.birthday}" id="memberBirthday" /></h6>
+                <h5>信箱：<input type="text" value="${member.email}" id="memberEmailNew" /></h5>
             </div>
             <div class="detailField">
-                <h6>電話：<input type="text" value="${member.tel}" id="memberTel" /></h6>
+                <h5>生日：<input type="date" value="${member.birthday}" id="memberBirthday" /></h5>
+            </div>
+            <div class="detailField">
+                <h5>電話：<input type="text" value="${member.tel}" id="memberTel" /></h6>
+            </div>
+            <div class="detailField">
+                <label class="check-box">
+                    <h4 style="color: red;"><input type="checkbox" id="isBlocked" ${member.isblocked ? 'checked' : ''} />將此會員封鎖</h4>
+                </label>
             </div>
             <div class="detailFooter">
                 <button class="listButton" onclick="saveMember('${member.memberid}')">儲存</button>
@@ -92,16 +117,26 @@ async function showMemberDetail(email) {
     }
 }
 
+// 清除會員照片 (還原為預設圖片)
+function clearMemberPic() {
+    const defaultPicUrl = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMDAwIi8+PC9zdmc+'; // 預設圖片 Base64
+    document.getElementById('memberPic').src = defaultPicUrl; // 還原大頭照
+}
+
 // 儲存會員修改
 async function saveMember(memberId) {
     try {
         const updatedMember = {
             name: document.getElementById('memberName').value,
+            picurl: document.getElementById('memberPic').src.split(',')[1],
             account: document.getElementById('memberAccount').value,
             email: document.getElementById('memberEmailNew').value,
             birthday: document.getElementById('memberBirthday').value,
-            tel: document.getElementById('memberTel').value
+            tel: document.getElementById('memberTel').value,
+            isblocked: document.getElementById('isBlocked').checked
         };
+        console.log(updatedMember);
+        
 
         // 通過 memberId 更新會員資料
         const response = await fetch(`http://localhost:8080/api/members/updateMember/${memberId}`, {
@@ -152,7 +187,14 @@ function closeDialog() {
     dialog.close();
 }
 
-// 初始化頁面
-window.onload = () => {
-    loadAllMembers(); // 頁面載入時載入所有會員
-};
+// Blob 轉 Base64
+function convertBlobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        const arrayBuffer = new Uint8Array(blob); // 若需要更多處理
+        const blobFile = new Blob([arrayBuffer]);
+        reader.readAsDataURL(blobFile);
+    });
+}

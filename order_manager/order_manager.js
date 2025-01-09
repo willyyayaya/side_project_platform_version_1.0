@@ -8,6 +8,7 @@ function clearInputs() {
 // 查詢會員專案
 async function searchMember() {
     const memberEmail = document.getElementById('memberEmail').value;
+    document.getElementById('detailContent').innerHTML = '';
     if (!memberEmail) {
         alert('請輸入會員信箱');
         return;
@@ -57,13 +58,13 @@ async function searchMember() {
             const orderItem = document.createElement('div');
             orderItem.className = 'orderItem';
             orderItem.innerHTML = `
-                <button class="listButton" style="float: left; margin-right: 10px;" onclick="confirmDelete(${order.orderid})">刪除</button>
-                <div style="float: left; margin-right: 10px;">
+                <button class="listButton" style="float: left; margin-right: 10px;  width: 20%;" onclick="confirmDelete(${order.orderid})">刪除</button>
+                <div style="float: left; margin-right: 10px;  width: 30%;">
                     ${ownedTag}
                     ${wantedTag}
                     ${progressTag}
                 </div>
-                <span onclick="showOrderDetail(${order.orderid})" style="float: left; margin-right: 10px; cursor: pointer;">${order.name}</span>
+                <span onclick="showOrderDetail(${order.orderid})" style="float: left; margin-right: 10px; cursor: pointer; width: 50%;">${order.name}</span>
             `;
             orderList.appendChild(orderItem);
         });
