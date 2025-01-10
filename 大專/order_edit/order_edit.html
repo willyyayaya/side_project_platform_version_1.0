@@ -19,42 +19,42 @@
 <body>
     <header><br><br><br><br></header>
     <div class="container w-75 p-1">
-        <h1>編輯專案</h1>
+        <h1>編輯專案</h1><h6>*號選項不可空白</h6>
         <div class="p-2 rounded-2 mb-1 row" id="needEtc">
             <div class="col-8">
-                <div>輸入專案標題:
+                <div>*輸入專案標題:
                     <input id="projectTitle" name="projectTitle" type="text">
                 </div>
                 <div>
-                    輸入簡介:<br>
-                    <textarea id="simpleInfo" name="simpleInfo"></textarea>
+                    *輸入簡介:<br>
+                    <textarea id="simpleInfo"></textarea>
                 </div>
-                <div>專案類型:
+                <div>*專案類型:
                     <select id="category" name="category">
                         <option value="遊戲">遊戲</option>
                         <option value="網頁">網頁</option>
                         <option value="app">APP</option>
                     </select>
                 </div>
-                <div> 預算:
-                    <input type="radio" name="budget" value="3萬"> 3萬塊以內
-                    <input type="radio" name="budget" value="5萬"> 3~5萬
+                <div>*預算:
+                    <input type="radio" name="budget" value="自訂"> 自訂
+                    <input id="casutamu" type="text" name="budget"> 
                     <input type="radio" name="budget" value="另議"> 另議
                 </div>
-                <div>工作地點:
+                <div>*工作地點:
                     <input type="radio" name="workplace" value="region">地區:
                     <select id="region" name="region"></select>
                     <input type="radio" name="workplace" value="遠端工作">遠端工作
                 </div>
                 <div class="d-flex">
-                    <div>需求程式技能:
+                    <div>*需求程式技能:
                         <div id="skill" class="d-inline"></div>
                     </div>
                 </div>
-                <div>建議需求人數:
+                <div>*建議需求人數:
                     <input id="people" type="number">人
                 </div>
-                <div>專案截止日:
+                <div>*專案截止日:
                     <input id="deadline" type="date" name="deadline">
                 </div>
             </div>
@@ -70,7 +70,7 @@
 
         </div>
         <div class="p-2 rounded-2 mb-1 row" id="input">
-            <h4>輸入詳細內容:</h4>
+            <h4>*輸入詳細內容:</h4>
             <div name="editor" id="editor" placeholder="請在此輸入內容..."></div>
         </div>
         <div class="row">

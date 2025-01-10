@@ -34,6 +34,10 @@ input {
     margin: 2px;
 }
 
+#casutamu{
+    width: 100px;
+}
+
 #people {
     width: 60px;
 }
@@ -41,6 +45,11 @@ input {
 #editor{
     height: 500px;
     overflow: auto;
+}
+
+.ql-editor img {
+    max-width: 900px; /* 設置圖片的最大寬度 */
+    height: auto;   /* 高度自動調整 */
 }
 
 #insert {
