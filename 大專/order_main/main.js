@@ -2,7 +2,7 @@ $(document).ready(async function () {
 
     let urlParams = new URLSearchParams(window.location.search);
     let orderId = urlParams.get('orderid'); // 取得 orderId 參數
-
+    let memberId = 110;
     console.log(orderId);
 
     let orderUrl = `http://localhost:8080/api/orders/getOrderById/${orderId}`;
@@ -24,6 +24,24 @@ $(document).ready(async function () {
     let responseSkillToJSON = await responseSkill.json();
     console.log(responseSkillToJSON);
     skill.innerText = '需要技能 : ' + responseSkillToJSON;
+
+    //會員資料
+    //顯示發案者頭像和名字
+    //1.抓取會員資料
+    let memberUrl = `http://localhost:8080/api/memberOrders/getMemberIdByOrderId/${orderId}`;
+    let responseMember = await fetch(memberUrl);
+    let responseMemberToJSON = await responseMember.json();
+    console.log(responseMemberToJSON);
+    console.log(responseMemberToJSON[0].memberid);
+    //2.以會員id去拿個人資料
+    imgBorder.innerHTML = `<img class="img-fluid object-fit-contain" src="${responseMemberToJSON[0].picurl}">`;
+    memberName.innerText = `${responseMemberToJSON[0].name}`;
+
+    let rankUrl = `http://localhost:8080/api/memberOrders/getRank/${responseMemberToJSON[0].memberid}`;
+    let responseRank = await fetch(rankUrl);
+    let responseRankToJSON = await responseRank.json();
+    console.log(responseRankToJSON);
+    rank.innerText = '評價:' + (responseRankToJSON).toFixed(2) + '分';
 
     //內容
     detail.innerHTML = responseOrderToJSON.detail;
@@ -68,7 +86,7 @@ $(document).ready(async function () {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                memberId: responseMemberToJSON[0].memberid,
+                memberId: memberId,
                 orderId: orderId,
                 owned: 0,
                 wanted: 1
@@ -89,45 +107,29 @@ $(document).ready(async function () {
         //     alert("發生錯誤，請稍後再試");
         // });
     };
-
-    //顯示申請人數
-    let applypeopleUrl = `http://localhost:8080/api/memberOrders/collected/people/${orderId}`;
-    let responsePreople = await fetch(applypeopleUrl);
-    let responsePeopleToJSON = await responsePreople.json();
-    console.log(responsePeopleToJSON);
-    let ap = '目前申請人數:' + responsePeopleToJSON + '人';
-    $('#applyPeople').text(ap);
-
     //申請按鈕
     apply.onclick = function () {
-        let applyUrl = 'http://localhost:8080/api/memberOrders/collected';
+        let applyUrl = 'http://localhost:8080/api/memberOrders/wanted';
         fetch(applyUrl, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                memberId: responseMemberToJSON[0].memberid,
+                memberId: memberId,
                 orderId: orderId,
-                "collected": 1
+                "wanted": 1,
+                // "owned": 0
             })
         })
     }
-    //會員資料
-    //顯示發案者頭像和名字
-    //1.抓取會員資料
-    let memberUrl = `http://localhost:8080/api/memberOrders/getMemberIdByOrderId/${orderId}`;
-    let responseMember = await fetch(memberUrl);
-    let responseMemberToJSON = await responseMember.json();
-    console.log(responseMemberToJSON);
-    console.log(responseMemberToJSON[0].memberid);
-    //2.以會員id去拿個人資料
-    imgBorder.innerHTML = `<img class="img-fluid object-fit-contain" src="${responseMemberToJSON[0].picurl}">`;
-    memberName.innerText = `${responseMemberToJSON[0].name}`;
 
-    let rankUrl = `http://localhost:8080/api/memberOrders/getRank/${responseMemberToJSON[0].memberid}`;
-    let responseRank = await fetch(rankUrl);
-    let responseRankToJSON = await responseRank.json();
-    console.log(responseRankToJSON);
-    rank.innerText = '評價:' + (responseRankToJSON).toFixed(2) + '分';
+    //顯示申請人數
+    let applypeopleUrl = `http://localhost:8080/api/memberOrders/wanted/people/${orderId}`;
+    let responsePreople = await fetch(applypeopleUrl);
+    let responsePeopleToJSON = await responsePreople.json();
+    console.log(responsePeopleToJSON);
+    let ap = '目前申請人數:' + responsePeopleToJSON + '人';
+    $('#applyPeople').text(ap);
+
 });
