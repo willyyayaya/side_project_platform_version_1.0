@@ -1,27 +1,27 @@
 $(document).ready(async function () {
     //文字編輯器    
-    tinymce.init({
-        selector: 'textarea:not(#simpleInfo)',
-        plugins: [
-            // Core editing features
-            'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-            // Your account includes a free trial of TinyMCE premium features
-            // Try the most popular premium features until Jan 12, 2025:
-            'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown', 'importword', 'exportword', 'exportpdf'
-        ],
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media | align lineheight | removeformat',
-        tinycomments_mode: 'embedded',
-        tinycomments_author: 'Author name',
-        mergetags_list: [
-            { value: 'First.Name', title: 'First Name' },
-            { value: 'Email', title: 'Email' },
-        ],
-        //圖片上傳
-        images_upload_url: '/upload',
-        automatic_uploads: true,
-        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
-
+    var quill = new Quill("#editor", {
+        theme: "snow", // 模板
+        modules: {
+            toolbar: [
+                // 工具列列表[註1]
+                ['bold', 'italic', 'underline', 'strike'], // 粗體、斜體、底線和刪節線
+                ['blockquote', 'code-block'], // 區塊、程式區塊
+                [{ 'header': 1 }, { 'header': 2 }], // 標題1、標題2
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }], // 清單
+                [{ 'indent': '-1' }, { 'indent': '+1' }], // 縮排
+                [{ 'direction': 'rtl' }], // 文字方向
+                [{ 'size': ['small', false, 'large', 'huge'] }], // 文字大小
+                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],// 標題
+                [{ 'color': [] }, { 'background': [] }], // 顏色
+                [{ 'font': [] }], // 字體
+                [{ 'align': [] }], // 文字方向
+                ['clean'] // 清除文字格是
+            ]
+        },
+        placeholder: '請在此輸入內容...'
     });
+
 
 
     //地點選單
@@ -95,13 +95,8 @@ $(document).ready(async function () {
 
         console.log($('img').prop("src"));
 
-
-        var activeEditorContent = tinymce.activeEditor;
-        if (activeEditorContent) {
-            console.log(activeEditorContent.getContent());  // 輸出編輯器內容
-        } else {
-            console.error('沒有找到當前活動的 TinyMCE 編輯器');
-        }
+        var htmlContent = quill.root.innerHTML; // 獲取 HTML 內容
+        console.log(htmlContent);
 
 
 
@@ -118,7 +113,7 @@ $(document).ready(async function () {
                 name: $("#projectTitle").val(),
                 intro: $('#simpleInfo').val(),
                 deadline: $('#deadline').val(),
-                detail: activeEditorContent.getContent(),
+                detail: htmlContent,
                 picurl: $('img').prop("src"),
                 location: rigion,
                 people: $('#people').val(),

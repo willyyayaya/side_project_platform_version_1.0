@@ -38,6 +38,10 @@ input {
     width: 60px;
 }
 
+#editor{
+    height: 500px;
+    overflow: auto;
+}
 
 #insert {
     background-color: #eaeff3;
