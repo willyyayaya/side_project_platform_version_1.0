@@ -14,6 +14,8 @@
 	<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="fragment.css">
 	<link rel="stylesheet" href="index.css">
+	<link rel="stylesheet" href="/src/main/resources/static/index.css">
+	<link rel="stylesheet" href="/src/main/resources/static/fragment.css">
 </head>
 
 <body>
@@ -49,7 +51,7 @@
 				<div class="row">
 					<div class="col-3">
 						<h2>發布日期</h2>
-						
+
 					</div>
 					<div class="col-9">
 						<h3>案件名稱</h3>
@@ -85,13 +87,25 @@
 				</div>
 			</div>
 			<div class="col-6">
-				<div class="search-container">
-					<input type="text" id="keyword" placeholder="預填文字提示">
+				<div class="searchContainer">
+					<input type="text" id="keyword">
 					<button type="button" id="searchButton">
 						<i class="bi bi-search"></i>
 					</button>
 				</div>
-				<div>建議熱搜詞，如技術上無法實現則移除</div>
+				<!-- <div>建議熱搜詞，如技術上無法實現則移除</div> -->
+				<tr th:each="Keyword:${kw}">
+					<button class="keywordBtn">
+						<td th:text=${Keyword.keyword}></td>
+					</button>
+				</tr>
+				<!-- <div>
+					<span th:text=${kw.keyword}></span>
+					<span th:text=${kw.keyword}></span>
+					<span th:text=${kw.keyword}></span>
+					<span th:text=${kw.keyword}></span>
+					<span th:text=${kw.keyword}></span>
+				</div> -->
 				<div>
 					<form id="searchForm" action="/search" method="get">
 						地區：<br>
@@ -183,15 +197,7 @@
 	</main>
 	<div th:replace="fragments::footer"></div>
 	<script src="jquery-3.7.1.js"></script>
-	<script>
-		$(document).ready(function () {
-			console.log("Document ready");
-			$("#searchButton").on('click', function () {
-				console.log("觸發搜尋");
-				$("#searchForm").submit();
-			});
-		});
-	</script>
+	<script src="js/index.js" defer></script>
 </body>
 
 </html>

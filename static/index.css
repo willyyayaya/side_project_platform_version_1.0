@@ -42,21 +42,21 @@ main form{
     line-height: 400px;
     
 }
-.search-container {
+.searchContainer {
     position: relative;
     max-width: 100%;
     z-index: 500;
     border: 1px solid blueviolet;
 }
 
-.search-container input[type="text"] {
+.searchContainer input[type="text"] {
     width: 100%;
     padding: 15px;
     box-sizing: border-box;
     border-radius: 30px;
 }
 
-.search-container button {
+.searchContainer button {
     position: absolute;
     right: 0;
     top: 0;
@@ -70,7 +70,7 @@ main form{
     justify-content: center;
 }
 
-.search-container button>i {
+.searchContainer button>i {
     color: #1d1616;
     font-size: 30px;
     margin-right: 30px;

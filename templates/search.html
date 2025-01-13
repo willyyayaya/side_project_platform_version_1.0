@@ -76,11 +76,25 @@
                 </form>
             </div>
             <div id="caseBox" class="col-8">
-                <div class="search-container">
-                    <input type="text" id="keyword" placeholder="預填文字提示">
-                    <button type="button" id="searchButton"><i class="bi bi-search"></i></button>
+                <div class="searchContainer">
+                    <input type="text" id="keyword">
+                    <button type="button" id="searchButton">
+                        <i class="bi bi-search"></i>
+                    </button>
                 </div>
-                <div>建議熱搜詞，如技術上無法實現則移除</div>
+                <!-- <div>建議熱搜詞，如技術上無法實現則移除</div> -->
+                <tr th:each="Keyword:${kw}">
+					<button class="keywordBtn">
+						<td th:text=${Keyword.keyword}></td>
+					</button>
+				</tr>
+                <!-- <div>
+					<span th:text=${kw.keyword}></span>
+					<span th:text=${kw.keyword}></span>
+					<span th:text=${kw.keyword}></span>
+					<span th:text=${kw.keyword}></span>
+					<span th:text=${kw.keyword}></span>
+				</div> -->
                 <div id="btn">
                     <button>發布時間</button>
                     <button>收藏數</button>
@@ -140,41 +154,7 @@
     </main>
     <div th:replace="fragments::footer"></div>
     <script src="jquery-3.7.1.js"></script>
-    <script>
-        $("#searchButton").on('click', function () {
-            $("#searchForm").submit();
-            console.log("觸發搜尋成功")
-        });
-        function getQueryParams() {
-            let params = {};
-            window.location.search.substring(1).split("&").forEach(param => {
-                let [key, value] = param.split("=");
-                if (!params[key]) {
-                    params[key] = [];
-                }
-                params[key].push(decodeURIComponent(value));
-            });
-            return params;
-        }
-        function applyQueryParams(params) {
-            if (params.keyword) {
-                $("#keyword").val(params.keyword[0]);
-            }
-            if (params.options) {
-                params.options.forEach(option => {
-                    let checkbox = $(`input[name="options"][value="${option}"]`);
-                    if (checkbox.length) {
-                        checkbox.prop("checked", true);
-                    }
-                });
-            }
-        }
-        $(document).ready(function () {
-            let params = getQueryParams();
-            applyQueryParams(params);
-        });
-    </script>
-
+    <script src="js/search.js" defer></script>
 </body>
 
 </html>

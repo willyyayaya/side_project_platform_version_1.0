@@ -116,3 +116,14 @@ footer>a,
 footer>span {
     font-size: 24px;
 }
+/* 其他 */
+.keywordBtn{
+    margin: 2px 0;
+    padding: 2px 5px;
+    border-radius: 5px;
+    background-color: #14518e;
+    color: #bbc8d8;
+}
+.randomKeyword{
+    color: #c59650;
+}
