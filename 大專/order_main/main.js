@@ -77,41 +77,11 @@ $(document).ready(async function () {
         $('#another').append(anotherpro);
     }
 
-    //收藏按鈕
-    collect.onclick = function () {
-        let ownedUrl = 'http://localhost:8080/api/memberOrders/addWantedOrder';
-        fetch(ownedUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                memberId: memberId,
-                orderId: orderId,
-                owned: 0,
-                wanted: 1
-            })
-        })
-
-        // .then(response => {
-        //     if (response.ok) {
-        //         // 如果請求成功，更新按鈕文字
-        //         $('#collect').text = '已收藏';
-        //     } else {
-        //         // 如果有錯誤，顯示錯誤提示
-        //         alert("錯誤: 無法標記為感興趣");
-        //     }
-        // })
-        // .catch(error => {
-        //     console.error("發生錯誤:", error);
-        //     alert("發生錯誤，請稍後再試");
-        // });
-    };
     //申請按鈕
     apply.onclick = function () {
-        let applyUrl = 'http://localhost:8080/api/memberOrders/wanted';
+        let applyUrl = 'http://localhost:8080/api/memberOrders/addWantedOrder';
         fetch(applyUrl, {
-            method: 'PUT',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -132,4 +102,33 @@ $(document).ready(async function () {
     let ap = '目前申請人數:' + responsePeopleToJSON + '人';
     $('#applyPeople').text(ap);
 
+    //收藏按鈕
+    collect.onclick = function () {
+        let ownedUrl = 'http://localhost:8080/api/memberOrders/collected';
+        fetch(ownedUrl, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                memberId: memberId,
+                orderId: orderId,
+                collected: 1
+            })
+        })
+
+        // .then(response => {
+        //     if (response.ok) {
+        //         // 如果請求成功，更新按鈕文字
+        //         $('#collect').text = '已收藏';
+        //     } else {
+        //         // 如果有錯誤，顯示錯誤提示
+        //         alert("錯誤: 無法標記為感興趣");
+        //     }
+        // })
+        // .catch(error => {
+        //     console.error("發生錯誤:", error);
+        //     alert("發生錯誤，請稍後再試");
+        // });
+    };
 });
