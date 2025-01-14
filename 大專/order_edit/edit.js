@@ -23,7 +23,8 @@ $(document).ready(async function () {
         },
         placeholder: '請在此輸入內容...'
     });
-
+    const editor = quill.root;
+    editor.style.fontSize = '24px';
     //地點選單
     $("#region").append('<option>台北市</option>');
     $("#region").append('<option>新北市</option>');
@@ -102,44 +103,33 @@ $(document).ready(async function () {
     })
 
     insert.onclick = function () {
-        // 檢查必填欄位並提示
         let empty = '請填寫';
-
-        // 檢查專案標題是否填寫
         if ($("#projectTitle").val() === "") {
             empty += ' 專案標題';
         }
-        // 檢查簡單介紹是否填寫
         if ($('#simpleInfo').val() === "") {
             empty += ' 簡介';
         }
-        // 檢查類別是否選擇
         if ($("#category").val() === "") {
             empty += ' 類型';
         }
-        // 檢查預算是否選擇
         if ($('input[name="budget"]:checked').length === 0) {
             empty += ' 預算';
         } else {
-            // 如果預算選擇了 "自訂"，則檢查金額是否填寫
             if ($('input[name="budget"]:checked').val() === "自訂" && $('#casutamu').val() === "") {
                 empty += ' 預算金額';
             }
         }
-        // 檢查工作地點是否選擇
         if ($('input[name="workplace"]:checked').length === 0) {
             empty += ' 工作地點';
         } else {
-            // 如果選擇了 "region"，檢查地區是否填寫
             if ($('input[name="workplace"]:checked').val() === "region" && $('#region').val() === "") {
                 empty += ' 工作地區';
             }
         }
-        // 檢查是否選擇了技能
         if ($("input[name='needSkill']:checked").length === 0) {
             empty += ' 至少一項技能';
         }
-        // 檢查人數和截止日期是否填寫
         if ($('#people').val() === "") {
             empty += ' 人數';
         }
@@ -190,7 +180,6 @@ $(document).ready(async function () {
         } else if ($('input[name="budget"]:checked').val() == "另議") {
             console.log($('input[value="另議"]').val());
             var money = $('input[value="另議"]').val();
-
         }
         if ($('input[name="workplace"]:checked').val() == "region") {
             console.log($('#region').val());
@@ -198,7 +187,6 @@ $(document).ready(async function () {
         } else if ($('input[name="workplace"]:checked').val() == "遠端工作") {
             console.log($('input[value="遠端工作"]').val());
             var rigion = $('input[value="遠端工作"]').val();
-
         }
         var selectedSkills = [];
         $("input[name='needSkill']:checked").each(function () {

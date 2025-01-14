@@ -60,7 +60,7 @@ input {
 }
 
 #preview {
-    display: none;
+    display: inline-block;
     height: 100px;
 }
 
