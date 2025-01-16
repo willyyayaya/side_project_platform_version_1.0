@@ -1,9 +1,10 @@
 $(document).ready(async function () {
 
     let urlParams = new URLSearchParams(window.location.search);
-    let orderId = urlParams.get('orderid'); // 取得 orderId 參數
+    let orderId = urlParams.get('orderId'); // 取得 orderId 參數
     let memberId = 110;
-    console.log(orderId);
+    console.log('memberId:' + memberId);
+    console.log('orderId:' + orderId);
 
     let orderUrl = `http://localhost:8080/api/orders/getOrderById/${orderId}`;
     let responseOrder = await fetch(orderUrl);
@@ -41,6 +42,9 @@ $(document).ready(async function () {
     let responseRank = await fetch(rankUrl);
     let responseRankToJSON = await responseRank.json();
     console.log(responseRankToJSON);
+    if (responseRankToJSON === 0) {
+        rank.innerText = '尚未評價過'
+    }
     rank.innerText = '評價:' + (responseRankToJSON).toFixed(2) + '分';
 
     //內容
@@ -77,7 +81,28 @@ $(document).ready(async function () {
         $('#another').append(anotherpro);
     }
 
-    //申請按鈕
+    //編輯和申請按鈕
+    if (responseSkillToJSON[0].memberid == `${memberId}`) {
+        $('#edit').css('display', 'block');
+    } else {
+        $('#apply').css('display', 'block');
+        let memberWantUrl = `http://localhost:8080/api/memberOrders/memberWanted/${orderId}/${memberId}`
+        let responseWant = await fetch(memberWantUrl);
+        let responseWantToJSON = await responseWant.json();
+        console.log(responseWantToJSON);
+        if (responseWantToJSON == true) {
+            $('#apply').text('已申請');
+        };
+    }
+
+    if ($('#apply').text() === '已申請') {
+        $('#apply').prop('disabled', true);
+    }
+
+    edit.onclick = function () {
+        window.location.href = `http://127.0.0.1:5500/%E5%A4%A7%E5%B0%88/order_update/order_update.html?orderId=${orderId}`;
+    }
+
     apply.onclick = function () {
         let applyUrl = 'http://localhost:8080/api/memberOrders/addWantedOrder';
         fetch(applyUrl, {
@@ -89,7 +114,6 @@ $(document).ready(async function () {
                 memberId: memberId,
                 orderId: orderId,
                 "wanted": 1,
-                // "owned": 0
             })
         })
     }
@@ -99,13 +123,53 @@ $(document).ready(async function () {
     let responsePreople = await fetch(applypeopleUrl);
     let responsePeopleToJSON = await responsePreople.json();
     console.log(responsePeopleToJSON);
-    let ap = '目前申請人數:' + responsePeopleToJSON + '人';
-    $('#applyPeople').text(ap);
+    let applyPeople = '目前申請人數:' + responsePeopleToJSON + '人';
+    $('#applyPeople').text(applyPeople);
+
+
 
     //收藏按鈕
+
+    //先看是不是本人發的
+    let collectUrl = `http://localhost:8080/api/memberOrders/getMemberIdByOrderId/${orderId}`;
+    let responseCollect = await fetch(collectUrl);
+    let responseCollectToJSON = await responseCollect.json();
+    console.log('收藏者:' + responseCollectToJSON[0].memberid);
+
+    if (responseCollectToJSON[0].memberid == `${memberId}`) {
+        collect.style.visibility = "hidden";
+    }
+
+    //查會員是否已收藏
+    let CollectedUrl = `http://localhost:8080/api/memberOrders/collected/${orderId}/${memberId}`;
+    let responseCollected = await fetch(CollectedUrl);
+    let responseCollectedToJson = await responseCollected.json();
+    console.log('有沒有收藏:' + responseCollectedToJson);
+    if (responseCollectedToJson === true) {
+        collect.innerText = "已收藏";  // 初始顯示為「已收藏」
+    } else {
+        collect.innerText = "收藏";  // 初始顯示為「收藏」
+    }
+
     collect.onclick = function () {
-        let ownedUrl = 'http://localhost:8080/api/memberOrders/collected';
-        fetch(ownedUrl, {
+        let url;
+        let newCollectedStatus;
+
+        // 根據按鈕顯示的文字來判斷操作
+        if (collect.innerText === "收藏") {
+            // 如果當前顯示為「收藏」，則收藏專案
+            url = 'http://localhost:8080/api/memberOrders/collected';
+            newCollectedStatus = true;
+            collect.innerText = "已收藏";  // 更新按鈕顯示為「已收藏」
+        } else {
+            // 如果當前顯示為「已收藏」，則取消收藏
+            url = 'http://localhost:8080/api/memberOrders/removeMemberCollected';
+            newCollectedStatus = false;
+            collect.innerText = "收藏";  // 更新按鈕顯示為「收藏」
+        }
+
+        // 發送請求至後端來更新收藏狀態
+        fetch(url, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -113,22 +177,15 @@ $(document).ready(async function () {
             body: JSON.stringify({
                 memberId: memberId,
                 orderId: orderId,
-                collected: 1
+                collected: newCollectedStatus  // 傳送新的收藏狀態
             })
-        })
-
-        // .then(response => {
-        //     if (response.ok) {
-        //         // 如果請求成功，更新按鈕文字
-        //         $('#collect').text = '已收藏';
-        //     } else {
-        //         // 如果有錯誤，顯示錯誤提示
-        //         alert("錯誤: 無法標記為感興趣");
-        //     }
-        // })
-        // .catch(error => {
-        //     console.error("發生錯誤:", error);
-        //     alert("發生錯誤，請稍後再試");
-        // });
+        }).then(response => response.json())
+            .then(data => {
+                // 成功後處理邏輯，這裡可以顯示通知或進行額外的操作
+                console.log("收藏狀態已更新:", data);
+            }).catch(error => {
+                // 發生錯誤時的處理
+                console.error("Error:", error);
+            });
     };
 });

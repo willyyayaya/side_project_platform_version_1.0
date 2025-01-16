@@ -44,12 +44,14 @@ footer {
     font-weight: bold;
 }
 
-#apply {
+#apply, 
+#edit{
     --bs-btn-padding-y: .20rem;
     --bs-btn-padding-x: .20rem;
     height: 50px;
     width: 90px;
     font-size: 24px;
+    display: none; 
 }
 
 #info p {

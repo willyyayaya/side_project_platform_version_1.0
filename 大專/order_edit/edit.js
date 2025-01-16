@@ -25,6 +25,7 @@ $(document).ready(async function () {
     });
     const editor = quill.root;
     editor.style.fontSize = '24px';
+    
     //地點選單
     $("#region").append('<option>台北市</option>');
     $("#region").append('<option>新北市</option>');
@@ -241,7 +242,7 @@ $(document).ready(async function () {
                     })
                 });
                 // 進行重定向
-                const redirectUrl = `http://127.0.0.1:5500/大專/order_main/order_main.html?orderid=${encodeURIComponent(orderId)}`;
+                const redirectUrl = `http://127.0.0.1:5500/大專/order_main/order_main.html?orderId=${encodeURIComponent(orderId)}`;
                 window.location.href = redirectUrl;
             } else {
                 console.error('未獲取到 orderId');

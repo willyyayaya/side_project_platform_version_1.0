@@ -1,6 +1,6 @@
 $(document).ready(async function () {
-
-    var oederId = 216;
+    var urlParams = new URLSearchParams(window.location.search);
+    var orderId = urlParams.get('orderId'); // 取得 orderId 參數
 
     //文字編輯器    
     var quill = new Quill("#editor", {
@@ -76,7 +76,7 @@ $(document).ready(async function () {
     });
 
     //抓預設
-    let orderUrl = `http://localhost:8080/api/orders/getOrderById/${oederId}`;
+    let orderUrl = `http://localhost:8080/api/orders/getOrderById/${orderId}`;
     let responseOrder = await fetch(orderUrl);
     let responseOrderToJSON = await responseOrder.json();
     console.log(responseOrderToJSON);
@@ -124,7 +124,7 @@ $(document).ready(async function () {
 
 
     //預設技能:
-    let defultUrl = `http://localhost:8080/api/tags/getTag/${oederId}`;
+    let defultUrl = `http://localhost:8080/api/tags/getTag/${orderId}`;
     let responseDefult = await fetch(defultUrl);
     let responseDefultToJSON = await responseDefult.json();
 
@@ -262,7 +262,7 @@ $(document).ready(async function () {
         console.log(htmlContent);
 
         //更新專案表單
-        let orderUrl = `http://localhost:8080/api/orders/updateOrder/${oederId}`;
+        let orderUrl = `http://localhost:8080/api/orders/updateOrder/${orderId}`;
         fetch(orderUrl, {
             method: 'PUT',
             headers: {
@@ -284,7 +284,7 @@ $(document).ready(async function () {
             })
         }).then(response => response.json()
         ).then(data => {
-            const redirectUrl = `http://127.0.0.1:5500/大專/order_main/order_main.html?orderid=${oederId}`;
+            const redirectUrl = `http://127.0.0.1:5500/大專/order_main/order_main.html?orderid=${orderId}`;
             window.location.href = redirectUrl;
         }).catch(error => {
             console.error("發生錯誤：", error);
