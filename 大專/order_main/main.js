@@ -82,7 +82,7 @@ $(document).ready(async function () {
     }
 
     //編輯和申請按鈕
-    if (responseSkillToJSON[0].memberid == `${memberId}`) {
+    if (responseMemberToJSON[0].memberid == `${memberId}`) {
         $('#edit').css('display', 'block');
     } else {
         $('#apply').css('display', 'block');
@@ -141,8 +141,8 @@ $(document).ready(async function () {
     }
 
     //查會員是否已收藏
-    let CollectedUrl = `http://localhost:8080/api/memberOrders/collected/${orderId}/${memberId}`;
-    let responseCollected = await fetch(CollectedUrl);
+    let collectedUrl = `http://localhost:8080/api/memberOrders/collected/${orderId}/${memberId}`;
+    let responseCollected = await fetch(collectedUrl);
     let responseCollectedToJson = await responseCollected.json();
     console.log('有沒有收藏:' + responseCollectedToJson);
     if (responseCollectedToJson === true) {
@@ -153,22 +153,19 @@ $(document).ready(async function () {
 
     collect.onclick = function () {
         let url;
-        let newCollectedStatus;
+        let collectedStatus;
 
         // 根據按鈕顯示的文字來判斷操作
         if (collect.innerText === "收藏") {
-            // 如果當前顯示為「收藏」，則收藏專案
             url = 'http://localhost:8080/api/memberOrders/collected';
-            newCollectedStatus = true;
-            collect.innerText = "已收藏";  // 更新按鈕顯示為「已收藏」
+            collectedStatus = true;
+            collect.innerText = "已收藏";  
         } else {
-            // 如果當前顯示為「已收藏」，則取消收藏
             url = 'http://localhost:8080/api/memberOrders/removeMemberCollected';
-            newCollectedStatus = false;
-            collect.innerText = "收藏";  // 更新按鈕顯示為「收藏」
+            collectedStatus = false;
+            collect.innerText = "收藏";  
         }
 
-        // 發送請求至後端來更新收藏狀態
         fetch(url, {
             method: 'PUT',
             headers: {
@@ -177,14 +174,12 @@ $(document).ready(async function () {
             body: JSON.stringify({
                 memberId: memberId,
                 orderId: orderId,
-                collected: newCollectedStatus  // 傳送新的收藏狀態
+                collected: collectedStatus  
             })
         }).then(response => response.json())
             .then(data => {
-                // 成功後處理邏輯，這裡可以顯示通知或進行額外的操作
                 console.log("收藏狀態已更新:", data);
             }).catch(error => {
-                // 發生錯誤時的處理
                 console.error("Error:", error);
             });
     };

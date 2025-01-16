@@ -24,7 +24,6 @@ footer {
     background-color: #eaeff3;
 }
 
-
 #projectTitle {
     min-height: 60px;
 }
@@ -54,6 +53,9 @@ footer {
     display: none; 
 }
 
+#collect{
+    text-decoration: none;
+}
 #info p {
     font-size: 20px;
     /* font-weight: bold; */
