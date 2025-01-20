@@ -28,28 +28,28 @@ $(document).ready(async function () {
     const editor = quill.root;
     editor.style.fontSize = '24px';
     //地區
-    $("#region").append('<option>台北市</option>');
-    $("#region").append('<option>新北市</option>');
-    $("#region").append('<option>桃園市</option>');
-    $("#region").append('<option>台中市</option>');
-    $("#region").append('<option>台南市</option>');
-    $("#region").append('<option>高雄市</option>');
-    $("#region").append('<option>基隆市</option>');
-    $("#region").append('<option>新竹市</option>');
-    $("#region").append('<option>嘉義市</option>');
-    $("#region").append('<option>宜蘭縣</option>');
-    $("#region").append('<option>新竹縣</option>');
-    $("#region").append('<option>苗栗縣</option>');
-    $("#region").append('<option>彰化縣</option>');
-    $("#region").append('<option>南投縣</option>');
-    $("#region").append('<option>雲林縣</option>');
-    $("#region").append('<option>嘉義縣</option>');
-    $("#region").append('<option>屏東縣</option>');
-    $("#region").append('<option>花蓮縣</option>');
-    $("#region").append('<option>台東縣</option>');
-    $("#region").append('<option>澎湖縣</option>');
-    $("#region").append('<option>金門縣</option>');
-    $("#region").append('<option>連江縣</option>');
+    $("#region").append('<option value="taipei">台北市</option>');
+    $("#region").append('<option value="newTaipei">新北市</option>');
+    $("#region").append('<option value="taoyuan">桃園市</option>');
+    $("#region").append('<option value="taichung">台中市</option>');
+    $("#region").append('<option value="tainan">台南市</option>');
+    $("#region").append('<option value="kaohsiung">高雄市</option>');
+    $("#region").append('<option value="keelung">基隆市</option>');
+    $("#region").append('<option value="hsinchuCity">新竹市</option>');
+    $("#region").append('<option value="chiayiCity">嘉義市</option>');
+    $("#region").append('<option value="yilan">宜蘭縣</option>');
+    $("#region").append('<option value="hsinchuCounty">新竹縣</option>');
+    $("#region").append('<option value="miaoli">苗栗縣</option>');
+    $("#region").append('<option value="changhua">彰化縣</option>');
+    $("#region").append('<option value="nantou">南投縣</option>');
+    $("#region").append('<option value="yunlin">雲林縣</option>');
+    $("#region").append('<option value="chiayiCounty">嘉義縣</option>');
+    $("#region").append('<option value="pingtung">屏東縣</option>');
+    $("#region").append('<option value="hualien">花蓮縣</option>');
+    $("#region").append('<option value="taitung">台東縣</option>');
+    $("#region").append('<option value="penghu">澎湖縣</option>');
+    $("#region").append('<option value="kinmen">金門縣</option>');
+    $("#region").append('<option value="lienchiang">連江縣</option>');
 
     //需求技能(抓資料庫內容)
     // $("#skill").append('<input type="checkbox" name="needSkill" value="Python">');
@@ -85,16 +85,17 @@ $(document).ready(async function () {
     $('#simpleInfo').val(responseOrderToJSON.intro)
     quill.root.innerHTML = responseOrderToJSON.detail;
 
+console.log(responseOrderToJSON.category);
 
     switch (responseOrderToJSON.category) {
-        case '遊戲':
-            $('option[value="遊戲"]').prop('selected', true);
+        case 'web':
+            $('option[value="web"]').prop('selected', true);
             break;
-        case '網頁':
-            $('option[value="網頁"]').prop('selected', true);
+        case 'game':
+            $('option[value="game"]').prop('selected', true);
             break;
-        case 'APP':
-            $('option[value="APP"]').prop('selected', true);
+        case 'app':
+            $('option[value="app"]').prop('selected', true);
             break;
     }
 
@@ -104,13 +105,13 @@ $(document).ready(async function () {
         $('input[value="自訂"]').prop('checked', true);
         $('#casutamu').val(responseOrderToJSON.budget);
     }
-    if (responseOrderToJSON.location == '遠端工作') {
-        $('input[value="遠端工作"]').prop('checked', true);
+    if (responseOrderToJSON.location == 'remote') {
+        $('input[value="remote"]').prop('checked', true);
     } else {
         $('input[value="region"]').prop('checked', true);
         // $(`option[value="${responseOrderToJSON.location}"]`).prop('selected', true);
         $("#region option").each(function () {
-            if ($(this).text() === responseOrderToJSON.location) {
+            if ($(this).val() === responseOrderToJSON.location) {
                 $(this).prop('selected', true);
             }
         });
@@ -152,14 +153,14 @@ $(document).ready(async function () {
     $("select[name='region']").css("display", "none");
     if ($('input[value="region"]').prop('checked')) {
         $('select[name="region"]').css("display", "inline-block");
-    } else if ($('input[value="遠端工作"]').prop('checked')) {
+    } else if ($('input[value="remote"]').prop('checked')) {
         $("select[name='region']").css("display", "none");
     }
 
     $('input[name="workplace"]').change(function () {
         if ($('input[value="region"]').prop('checked')) {
             $('select[name="region"]').css("display", "inline-block");
-        } else if ($('input[value="遠端工作"]').prop('checked')) {
+        } else if ($('input[value="remote"]').prop('checked')) {
             $("select[name='region']").css("display", "none");
         }
     })
@@ -246,9 +247,9 @@ $(document).ready(async function () {
         if ($('input[name="workplace"]:checked').val() == "region") {
             console.log($('#region').val());
             var rigion = $('#region').val();
-        } else if ($('input[name="workplace"]:checked').val() == "遠端工作") {
-            console.log($('input[value="遠端工作"]').val());
-            var rigion = $('input[value="遠端工作"]').val();
+        } else if ($('input[name="workplace"]:checked').val() == "remote") {
+            console.log($('input[value="remote"]').val());
+            var rigion = $('input[value="remote"]').val();
         }
         var selectedSkills = [];
         $("input[name='needSkill']:checked").each(function () {
@@ -284,7 +285,7 @@ $(document).ready(async function () {
             })
         }).then(response => response.json()
         ).then(data => {
-            const redirectUrl = `http://127.0.0.1:5500/大專/order_main/order_main.html?orderid=${orderId}`;
+            const redirectUrl = `http://127.0.0.1:5500/大專/order_main/order_main.html?orderId=${orderId}`;
             window.location.href = redirectUrl;
         }).catch(error => {
             console.error("發生錯誤：", error);

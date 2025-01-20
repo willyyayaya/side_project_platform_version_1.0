@@ -2,7 +2,7 @@ $(document).ready(async function () {
 
     let urlParams = new URLSearchParams(window.location.search);
     let orderId = urlParams.get('orderId'); // 取得 orderId 參數
-    let memberId = 110;
+    let memberId = 103;
     console.log('memberId:' + memberId);
     console.log('orderId:' + orderId);
 
@@ -11,12 +11,101 @@ $(document).ready(async function () {
     let responseOrderToJSON = await responseOrder.json();
 
     console.log(responseOrderToJSON);
-    category.innerText = responseOrderToJSON.category;
+    console.log(responseOrderToJSON.category);
+    switch (responseOrderToJSON.category) {
+        case 'web':
+            category.innerText = '網頁';
+            break;
+        case 'game':
+            category.innerText = '遊戲';
+            break;
+        case 'app':
+            category.innerText = 'APP';
+            break;
+        default:
+            category.innerText = '其他';
+            break;
+    }
     release.innerText = responseOrderToJSON.upload;
     projectTitle.innerText = responseOrderToJSON.name;
     updateDate.innerText = '最新更新時間:' + responseOrderToJSON.newdate;
     budget.innerText = '預算 : ' + responseOrderToJSON.budget;
-    area.innerText = '地點 : ' + responseOrderToJSON.location;
+    //地點換算
+    console.log(responseOrderToJSON.location);
+    switch (responseOrderToJSON.location) {
+        case 'taipei':
+            area.innerText = '地點 : 台北市';
+            break;
+        case 'newTaipei':
+            area.innerText = '地點 : 新北市';
+            break;
+        case 'taoyuan':
+            area.innerText = '地點 : 桃園市';
+            break;
+        case 'taichung':
+            area.innerText = '地點 : 台中市';
+            break;
+        case 'tainan':
+            area.innerText = '地點 : 台南市';
+            break;
+        case 'kaohsiung':
+            area.innerText = '地點 : 高雄市';
+            break;
+        case 'keelung':
+            area.innerText = '地點 : 基隆市';
+            break;
+        case 'hsinchuCity':
+            area.innerText = '地點 : 新竹市';
+            break;
+        case 'chiayiCity':
+            area.innerText = '地點 : 嘉義市';
+            break;
+        case 'yilan':
+            area.innerText = '地點 : 宜蘭縣';
+            break;
+        case 'hsinchuCounty':
+            area.innerText = '地點 : 新竹縣';
+            break;
+        case 'miaoli':
+            area.innerText = '地點 : 苗栗縣';
+            break;
+        case 'changhua':
+            area.innerText = '地點 : 彰化縣';
+            break;
+        case 'nantou':
+            area.innerText = '地點 : 南投縣';
+            break;
+        case 'yunlin':
+            area.innerText = '地點 : 雲林縣';
+            break;
+        case 'chiayiCounty':
+            area.innerText = '地點 : 嘉義縣';
+            break;
+        case 'pingtung':
+            area.innerText = '地點 : 屏東縣';
+            break;
+        case 'hualien':
+            area.innerText = '地點 : 花蓮縣';
+            break;
+        case 'taitung':
+            area.innerText = '地點 : 台東縣';
+            break;
+        case 'penghu':
+            area.innerText = '地點 : 澎湖縣';
+            break;
+        case 'kinmen':
+            area.innerText = '地點 : 金門縣';
+            break;
+        case 'lienchiang':
+            area.innerText = '地點 : 連江縣';
+            break;
+        case 'remote':
+            area.innerText = '地點 : 遠端工作';
+            break;
+        default:
+            area.innerText = '地點 : 公司';
+            break;
+    }
     head.innerText = '建議人數 : ' + responseOrderToJSON.people + '人';
     deadline.innerText = '申請截止日 : ' + responseOrderToJSON.deadline;
     //需要技能
@@ -159,11 +248,11 @@ $(document).ready(async function () {
         if (collect.innerText === "收藏") {
             url = 'http://localhost:8080/api/memberOrders/collected';
             collectedStatus = true;
-            collect.innerText = "已收藏";  
+            collect.innerText = "已收藏";
         } else {
             url = 'http://localhost:8080/api/memberOrders/removeMemberCollected';
             collectedStatus = false;
-            collect.innerText = "收藏";  
+            collect.innerText = "收藏";
         }
 
         fetch(url, {
@@ -174,7 +263,7 @@ $(document).ready(async function () {
             body: JSON.stringify({
                 memberId: memberId,
                 orderId: orderId,
-                collected: collectedStatus  
+                collected: collectedStatus
             })
         }).then(response => response.json())
             .then(data => {
