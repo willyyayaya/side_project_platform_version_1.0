@@ -12,10 +12,10 @@
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
 	<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="fragment.css">
-	<link rel="stylesheet" href="index.css">
-	<link rel="stylesheet" href="/src/main/resources/static/index.css">
-	<link rel="stylesheet" href="/src/main/resources/static/fragment.css">
+	<link rel="stylesheet" href="CSS/fragment.css">
+	<link rel="stylesheet" href="CSS/index.css">
+	<link rel="stylesheet" href="/src/main/resources/static/CSS/index.css">
+	<link rel="stylesheet" href="/src/main/resources/static/CSS/fragment.css">
 </head>
 
 <body>
@@ -29,63 +29,17 @@
 		<section class="row">
 			<div class="col-6">
 				<h1>熱門案件推薦</h1>
-				<span>預計依收藏數排序，如技術上困難則以亂數隨機推薦</span>
-				<div class="row">
+				<div class="row" th:each="keywordCase : ${keywordCase}">
 					<div class="col-3">
-						<h2>發布日期</h2>
+						<h2  th:text=${keywordCase.detail}>截止日期</h2>
 					</div>
 					<div class="col-9">
-						<h3>案件名稱</h3>
-						<p>技能tag</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-3">
-						<h2>發布日期</h2>
-					</div>
-					<div class="col-9">
-						<h3>案件名稱</h3>
-						<p>技能tag</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-3">
-						<h2>發布日期</h2>
-
-					</div>
-					<div class="col-9">
-						<h3>案件名稱</h3>
-						<p>技能tag</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-3">
-						<h2>發布日期</h2>
-					</div>
-					<div class="col-9">
-						<h3>案件名稱</h3>
-						<p>技能tag</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-3">
-						<h2>發布日期</h2>
-					</div>
-					<div class="col-9">
-						<h3>案件名稱</h3>
-						<p>技能tag</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-3">
-						<h2>發布日期</h2>
-					</div>
-					<div class="col-9">
-						<h3>案件名稱</h3>
-						<p>技能tag</p>
+						<h3 th:text=${keywordCase.name}>案件名稱</h3>
+						<p th:text="${keywordCase.tagNames}">案件tag</p>
 					</div>
 				</div>
 			</div>
+			<!-- 搜尋框框 -->
 			<div class="col-6">
 				<div class="searchContainer">
 					<input type="text" id="keyword">
@@ -93,19 +47,14 @@
 						<i class="bi bi-search"></i>
 					</button>
 				</div>
-				<!-- <div>建議熱搜詞，如技術上無法實現則移除</div> -->
-				<tr th:each="Keyword:${kw}">
-					<button class="keywordBtn">
-						<td th:text=${Keyword.keyword}></td>
-					</button>
-				</tr>
-				<!-- <div>
-					<span th:text=${kw.keyword}></span>
-					<span th:text=${kw.keyword}></span>
-					<span th:text=${kw.keyword}></span>
-					<span th:text=${kw.keyword}></span>
-					<span th:text=${kw.keyword}></span>
-				</div> -->
+				<!-- 建議熱搜詞 -->
+				<div class="keywordList">
+					<tr th:each="Keyword:${kw}">
+						<button class="keywordBtn">
+							<td th:text=${Keyword.keyword}></td>
+						</button>
+					</tr>
+				</div>
 				<div>
 					<form id="searchForm" action="/search" method="get">
 						地區：<br>
@@ -165,7 +114,7 @@
 			<h2>熱門會員</h2>
 			<div class="col-4">
 				<div id="userImg">
-					<img src="image.png" alt="">
+					<img src="img/image.png" alt="">
 				</div>
 				<div id="userData">
 					<h3>會員暱稱</h3>
@@ -175,7 +124,7 @@
 			</div>
 			<div class="col-4">
 				<div id="userImg">
-					<img src="image.png" alt="">
+					<img src="img/image.png" alt="">
 				</div>
 				<div id="userData">
 					<h3>會員暱稱</h3>
@@ -185,7 +134,7 @@
 			</div>
 			<div class="col-4">
 				<div id="userImg">
-					<img src="image.png" alt="">
+					<img src="img/image.png" alt="">
 				</div>
 				<div id="userData">
 					<h3>會員暱稱</h3>
@@ -196,7 +145,7 @@
 		</section>
 	</main>
 	<div th:replace="fragments::footer"></div>
-	<script src="jquery-3.7.1.js"></script>
+	<script src="js/jquery-3.7.1.js"></script>
 	<script src="js/index.js" defer></script>
 </body>
 

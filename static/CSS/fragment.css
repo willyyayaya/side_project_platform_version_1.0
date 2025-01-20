@@ -33,16 +33,19 @@ header {
 
 .varBtn {
     padding: 15px;
-    width: 120px;
     border-radius: 10px;
     border: 1px solid #14518e;
     color: #14518e;
     /* line-height: 50px; */
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    max-width: 200px
 }
 
 .varBtn:hover {
     padding: 15px;
-    width: 120px;
+    max-width: 200px;
     background-color: #14518e;
     border-radius: 10px;
     border: 1px solid #eaeff3;
@@ -117,6 +120,11 @@ footer>span {
     font-size: 24px;
 }
 /* 其他 */
+.keywordList{
+    width: 100%;
+    /* display: flex; */
+    /* justify-content: space-evenly; */
+}
 .keywordBtn{
     margin: 2px 0;
     padding: 2px 5px;

@@ -92,23 +92,26 @@ $(document).ready(function () {
             option.forEach(option =>
                 params.append("options", option));
 
-            //存為URL
-            window.history.replaceState(null, null, "/search?" + params.toString())
+            //交給後端存入關鍵字
+            if (keyword != "") {
+                $.post("/SaveAndSearchKeyword", { userKeyword: keyword }, function (response) {
+                    console.log("關鍵字已儲存");
+                    //利用thymeleaf模板返回搜尋資料
+                    fetch("/SaveAndSearchKeyword")
+                        .then(response => response.text())
+                        .then(data => {
+                            $("#keywordsearchBox").html(data);
+                        })
+                        .catch(error => console.error('Error loading content:', error));
+                    //存為URL
+                    window.location.href = "/search?" + params.toString();
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    console.log("請求失敗: " + textStatus + ", " + errorThrown);
+                });
+            }
             console.log("使用者輸入為: " + keyword + ",checkbox: " + option);
-            // 在這裡處理你的搜尋邏輯，例如發送 AJAX 請求 
-            // 例如： 
-            // $.get("/search", { keyword: keyword, options: option }, function(data) {})
-            // 更新頁面內容
         }
 
-        //交給後端存入關鍵字
-        if (keyword != "") {
-            $.post("/saveKeyword", { userKeyword: keyword }, function (response) {
-                console.log("關鍵字已儲存");
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                console.log("請求失敗: " + textStatus + ", " + errorThrown);
-            });
-        }
     });
     //針對新增在頁面上的關鍵字加入點擊功能
     $(".keywordBtn").on('click', function () {

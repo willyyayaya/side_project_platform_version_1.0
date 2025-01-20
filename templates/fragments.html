@@ -15,7 +15,7 @@
 	<!-- 只有此頁面可以在VS Code用Live Server開啟，CSS link 如下 -->
 	<link rel="stylesheet" href="/src/main/resources/static/fragment.css">
 	<!-- 各自頁面要用日蝕spring跑才看得到，CSS link 如下，加在自己頁面的head -->
-	<link rel="stylesheet" href="fragment.css">
+	<link rel="stylesheet" href="CSS/fragment.css">
 	<!-- 如果你們的頁面加入下面註解的header跟footer代碼後要用日蝕spring跑才看得到效果 -->
 </head>
 
@@ -26,7 +26,7 @@
 	<div class="sticky" th:if="${member!= null}" th:insert="fragments::userHeader"></div> 
 	-->
 	<header th:fragment="header">
-		<button id="logoBtn" th:onclick="'window.location.href=\'' + @{/index} + '\''"><img src="LOGO.png"
+		<button id="logoBtn" th:onclick="'window.location.href=\'' + @{/index} + '\''"><img src="img/logowhite.png"
 				alt=""></button>
 		<div class="headerBtn">
 			<button class="varBtn" th:onclick="'window.location.href=\'' + @{/search} + '\''">找case</button>
@@ -35,7 +35,7 @@
 		</div>
 	</header>
 	<header th:if="${member != null}" th:fragment="userHeader">
-		<button id="logoBtn" th:onclick="'window.location.href=\'' + @{/index} + '\''"><img src="LOGO.png"
+		<button id="logoBtn" th:onclick="'window.location.href=\'' + @{/index} + '\''"><img src="img/logowhite.png"
 				alt=""></button>
 		<div class="headerBtn">
 			<button class="varBtn" th:onclick="'window.location.href=\'' + @{/search} + '\''">找case</button>
@@ -43,7 +43,7 @@
 				<button id="varLogout" class="varBtn" type="submit">logout</button>
 			</form>
 			<!-- 跳轉到會員中心@{會員中心的GetMapping} -->
-			<button id="varUser" class="varBtn" th:onclick="'window.location.href=\'' + @{/userloging} + '\''"
+			<button id="varUser" class="varBtn" th:onclick="'window.location.href=\'' + @{/membercenter} + '\''"
 				th:if="${member != null}" th:text="${member.name}"></button>
 		</div>
 	</header>
@@ -53,13 +53,24 @@
 	<br><br><br><br><br>
 	<br><br><br><br><br>
 
+	<div th:fragment="keywordsearchBox">
+		<div class="row oneCase" th:each="keywordCase : ${keywordCase}">
+			<img src="img/image.png" alt="" class="col-4">
+			<div id="" class="col-8">
+				<h3 th:text=${keywordCase.name}>案件名稱</h3>
+				<p th:text="${keywordCase.tagNames}">案件tag</p>
+				<h5 th:text=${keywordCase.intro}>案件簡介</h5>
+			</div>
+		</div>
+	</div>
+
 	<br><br><br><br><br>
 	<br><br><br><br><br>
 	<br><br><br><br><br>
 	<br><br><br><br><br>
 
 	<!--
-	footer 片段，在你們的頁面加入以下碼 
+	footer 片段，在你們的頁面加入以下代碼 
 	<div th:replace="fragments::footer"></div>
 	-->
 	<footer th:fragment="footer">
